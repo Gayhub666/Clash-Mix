@@ -1,0 +1,25 @@
+proxies:
+  - name: cacerts.digicert.com
+    server: cacerts.digicert.com
+    port: 443
+    type: vmess
+    uuid: ff382d09-becd-41cb-8e4f-3e256b27de47
+    alterId: 0
+    cipher: auto
+    tls: true
+    skip-cert-verify: true
+    servername: sg2.v2-ray.com
+    network: ws
+    ws-opts:
+      path: /fastssh/lycoris/630154372f397/
+      headers:
+        Host: sg2.v2-ray.com
+    udp: true
+proxy-groups:
+  - name: CLASH
+    type: select
+    proxies:
+      - cacerts.digicert.com
+      - DIRECT
+rules:
+  - MATCH,CLASH
