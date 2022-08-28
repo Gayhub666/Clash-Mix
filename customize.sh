@@ -26,7 +26,7 @@ if [ $BOOTMODE ! = true ] ; then
 fi
 
 if [ -d "${clash_data_dir}" ] ; then
-    ui_print "- folder Clash di temukan, Membuat Backup"
+    ui_print "- 旧的clash文件已移动到clash.old"
     if [ -d "${clash_data_dir}/clash.old" ] ; then
         rm -rf ${clash_data_dir}/clash.old
     fi
@@ -163,5 +163,6 @@ set_perm  ${clash_data_dir}/scripts/clash.inotify 0  0  0755
 set_perm  ${clash_data_dir}/scripts/clash.service 0  0  0755
 set_perm  ${clash_data_dir}/scripts/clash.cron 0  0  0755
 set_perm  ${clash_data_dir}/scripts/start.sh 0  0  0755
+set_perm  ${clash_data_dir}/scripts/upSub.sh 0  0  0755
 set_perm  ${clash_data_dir}/clash.config ${uid} ${gid} 0755
 set_perm  ${clash_service_dir}/clash_service.sh  0  0  0755

@@ -1,25 +1,115 @@
 proxies:
-  - name: cacerts.digicert.com
-    server: cacerts.digicert.com
-    port: 443
-    type: vmess
-    uuid: ff382d09-becd-41cb-8e4f-3e256b27de47
-    alterId: 0
-    cipher: auto
-    tls: true
-    skip-cert-verify: true
-    servername: sg2.v2-ray.com
-    network: ws
-    ws-opts:
-      path: /fastssh/lycoris/630154372f397/
-      headers:
-        Host: sg2.v2-ray.com
-    udp: true
+proxy-providers:
+  
+  可乐云:
+    type: http
+    url: "订阅链接地址"
+    path: ./proxy_providers/可乐云.yaml
+    interval: 10800
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 1800
+  魔戒:
+    type: http
+    url: "订阅链接地址"
+    path: ./proxy_providers/魔戒.yaml
+    interval: 10800
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 1800
+#使用p核时，如果无法正常更新订阅，请打开proxy provider 里面的机场yaml配置文件查看
+#如果是乱码，需要自己在订阅链接结尾加上 &flag=clash  强制订阅服务器下发clash的配置文件
+  备用:
+    type: http
+    url: "在底下选一个吧，如果有好的欢迎提交"
+    path: ./proxy_providers/备用.yaml
+    interval: 10800
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 1800
+
+#欢迎提交更多白嫖订阅
+#https://pastebin.com/raw/GxR5pELe
+#https://openit.daycat.space/clash
+#https://nullnode.top/clash主站 下属 https://nullnode.top/clashnode
+#可以白嫖的机场 https://acec.cloud/
+# 魔戒 可乐云 为机场名，可以更换，要换必须全换，建议使用编辑器的查找功能避免遗漏
 proxy-groups:
-  - name: CLASH
+  - name: 机场
     type: select
     proxies:
-      - cacerts.digicert.com
+      - 可乐云
+      - 魔戒
+      - 备用
+      - 美国节点
+      - 负载均衡
+
+  - name: 可乐云
+    type: select
+    use:
+      - 可乐云
+
+  - name: 魔戒
+    type: select
+    use:
+      - 魔戒
+
+  - name: 备用
+    type: select
+    use:
+      - 备用
+
+    
+  - name: 美国节点
+    type: select
+    use:
+      - 可乐云
+      - 魔戒
+      - 备用
+    filter: '美国|USA|美國'
+#meta的特性，如果你经常使用某个地区节点可以使用过滤器便于选择 美国节点 可以改为其他
+#但是要改就得全改，建议使用编辑器的替换功能防止遗漏。过滤器内容用 | 分割，支持通配符
+  - name: 负载均衡
+    type: load-balance
+    use:
+      - 可乐云
+      - 魔戒
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 1800
+    filter: '美国|USA|美國.*1.0'
+    strategy: consistent-hashing
+
+
+  - name: 墙内网址
+    type: select
+    proxies:
       - DIRECT
+      - 机场
+
+  - name: 其他
+    type: select
+    proxies:
+      - DIRECT
+      - 机场
+      - 墙内网址
+
+rule-providers:
+  userDirect:
+    type: file
+    behavior: classical
+    path: ./rule_providers/userDirect.yaml
+    #用户自定义直连，文件在data/clash/rule-provider/userdirect，需要的自己写入，格式参照备用里面的clash官方文档
 rules:
-  - MATCH,CLASH
+  - RULE-SET,AppProxy,机场
+  - RULE-SET,AppDirect,墙内网址
+  - RULE-SET,userDirect,墙内网址
+  - GEOSITE,category-ads-all,REJECT
+  - GEOSITE,geolocation-cn,墙内网址
+  - GEOSITE,geolocation-!cn,机场
+  - GEOIP,private,DIRECT
+  - GEOIP,CN,墙内网址
+  - GEOIP,!CN,机场
+  - MATCH,其他

@@ -174,6 +174,9 @@ start_clash() {
         else
             echo $date_log"info: local ip auto bypass is turned off." >> ${CFM_logs_file}
         fi
+        ${scripts_dir}/upSub.sh -s
+        echo "0 * * * * ${scripts_dir}/upSub.sh -s " >> ${Clash_run_path}/root \
+        && echo $date_log"info: 自动更新套餐流量已开启." >> ${CFM_logs_file}
     else
         echo $date_log"err: Clash kernel ${Clash_bin_path} not found !!!." >> ${CFM_logs_file}
         exit 1
@@ -235,7 +238,7 @@ start_clash() {
             exit 0
         fi
     else
-        echo $date_log"warn: skip port detected." >> ${CFM_logs_file}
+        echo $date_log"警告：已跳过端口检查 可能出现整机断网或无法代理流量等故障" >> ${CFM_logs_file}
     fi
 }
 
@@ -250,7 +253,7 @@ stop_clash() {
            fi
         done
     else
-        echo $date_log"warn: hard kill Clash" >> ${CFM_logs_file}
+        echo $date_log"警告：出现异常，已强制停止clash内核" >> ${CFM_logs_file}
         kill -9 `cat ${Clash_pid_file}`
     fi
 
@@ -261,11 +264,11 @@ stop_clash() {
 
     local PIDs=`cat ${Clash_pid_file} 2> /dev/null`
     if (cat /proc/${PIDs}/cmdline | grep -q ${Clash_bin_name}) ; then
-        echo $date_log"err: failed to stop Clash." >> ${CFM_logs_file}
+        echo $date_log"clash关闭失败" >> ${CFM_logs_file}
         ${scripts_dir}/clash.iptables -s
         exit 1
     else
-        echo $date_log"warn: Clash has stopped." >> ${CFM_logs_file}
+        echo $date_log"warn: Clash已停止运行" >> ${CFM_logs_file}
     fi
 
     if [ -f /data/clash/run/appuid.list ]; then
@@ -273,6 +276,9 @@ stop_clash() {
     fi
 
     rm -rf /data/clash/run/clash.pid
+
+    rm -rf ${Clash_run_path}/root \
+    && echo $date_log"info: 自动更新流量信息已关闭." >> ${CFM_logs_file}
 }
 
 while getopts ":sk" signal ; do

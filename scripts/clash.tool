@@ -271,7 +271,7 @@ file_stop() {
 }
 
 clash_cron() {
-step=5
+step=5 #间隔的秒数，不能大于60
 i=0
     while ((i < 60)) ; do  
         i=$i+step

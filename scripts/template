@@ -1,54 +1,85 @@
+tproxy-port: 9898
+mixd-prot: 7890
 mode: rule
 allow-lan: true
-unified-delay: true
+unified-delay: false
 bind-address: "*"
-log-level: silent
+log-level: info
 ipv6: false
 geodata-mode: true
 external-controller: 0.0.0.0:9090
 external-ui: dashboard/dist
 tcp-concurrent: false
 interface-name: ""
-enable-process: false
+enable-process: true
 geodata-loader: memconservative
 inbound-tfo: false
 secret: ""
 profile:
   store-selected: true
-  store-fake-ip: false
-# geox-url: {mmdb: https://cdn.jsdelivr.net/gh/Dreamacro/maxmind-geoip@release/Country.mmdb, geoip: https://github.com/v2fly/geoip/releases/latest/download/geoip-only-cn-private.dat, geosite: https://github.com/taamarin/v2ray-rules-dat/raw/release/geosite.dat}
+  store-fake-ip: true
 experimental: {sniff-tls-sni: true, fingerprint: ""}
 auto-redir: {enable: false, auto-route: false}
 tun:
   enable: false
-  stack: system
+  stack: system  # gvisor 可切换
   dns-hijack:
     - any:53
-  auto-route: false
-  auto-detect-interface: false
+  auto-route: true
+  auto-detect-interface: true
+
 sniffer:
   enable: false
   sniffing: [tls, http]
   force-domain: [+]
   skip-domain: [+.google.com]
   port-whitelist: [443, 80]
+
 dns:
   enable: true
   device: Meta
   ipv6: false
   prefer-h3: false
-  default-nameserver: [1.1.1.1, 9.9.9.9]
   listen: 0.0.0.0:1053
   use-hosts: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-  fake-ip-filter: ["*.local", "*.localhost", dns.*, dns.*.*, "*.twilio.com", "*.*.twilio.com"]
-  nameserver: [8.8.8.8, 94.140.14.14, 149.112.112.112]
-  fallback: []
+  fake-ip-filter:
+    - localhost.ptlogin2.qq.com
+    - '*.lan'
+    - '*.linksys.com'
+    - '*.ntp.*'
+  default-nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+  proxy-server-namesever:
+    - https://120.53.53.53/dns-query
+    - https://223.5.5.5/dns-query
+  nameserver:
+    #- 119.29.29.29
+    #- 223.5.5.5
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+    #使用了大部分机场的默认dns设置，仅供参考
+    #警告：修改dns设置可能导致免流失效
+  fallback:
+    #- 1.1.1.1#机场
+    #- 8.8.4.4#机场
+    - https://doh.dns.sb/dns-query
+    - https://dns.cloudflare.com/dns-query
+    - https://dns.twnic.tw/dns-query
   fallback-filter:
-    geoip: false
-    geoip-code: ID
-    geosite: []
-    ipcidr: []
-    domain: []
-tproxy-port: 9898
+    geosite: ["!CN"]
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32
+    domain:
+      - +.google.com
+      - +.facebook.com
+      - +.twitter.com
+      - +.youtube.com
+      - +.google.cn
+      - +.googleapis.cn
+      - +.googlevideo.com
+      - +.github.com
+      - +.githubusercontent.com
