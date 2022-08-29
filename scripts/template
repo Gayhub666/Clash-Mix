@@ -18,8 +18,13 @@ secret: ""
 profile:
   store-selected: true
   store-fake-ip: true
-experimental: {sniff-tls-sni: true, fingerprint: ""}
-auto-redir: {enable: false, auto-route: false}
+experimental: 
+  - sniff-tls-sni: true
+  - fingerprint: ""
+auto-redir: 
+  - enable: false
+  - auto-route: false
+
 tun:
   enable: false
   stack: system  # gvisor 可切换
@@ -61,7 +66,7 @@ dns:
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
     #使用了大部分机场的默认dns设置，仅供参考
-    #警告：修改dns设置可能导致免流失效
+    #警告：修改dns设置可能导致免流出现故障
   fallback:
     #- 1.1.1.1#机场
     #- 8.8.4.4#机场
