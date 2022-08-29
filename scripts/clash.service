@@ -8,6 +8,10 @@ start_clash() {
     nohup /data/adb/magisk/busybox crond -c /data/clash/run > /dev/null 2>&1 &
     touch /data/clash/run/cmdRunning && rm -rf /data/clash/run/DEBUG*
 
+    if [ -f /data/clash/run/run.logs ] ; then
+    mv data/clash/run/run.log data/clash/run/log.old
+    fi
+    #保存旧日志
     if [ "${config_online}" == "true" ] ; then
         if ! [ "$(head -1 /data/clash/run/root)" == "disable" ] ; then
             if ! (${scripts_dir}/clash.tool -o) ; then
@@ -18,11 +22,11 @@ start_clash() {
     fi
 
     echo -n "" > ${CFM_logs_file} && echo "${date_day}" >> ${CFM_logs_file}
-    echo "Clash for Magisk v1.13.0" >> ${CFM_logs_file}
+    echo "Clash for Magisk v1.13.0  魔改版" >> ${CFM_logs_file}
 
     chmod 0755 /data/clash/core/lib/*
 
-    err="failed to replace Core."
+    err="更换内核失败"
     if [ "${use_premium}" == "true" ]; then
         cp -f ${Clash_Premium} /data/clash/core/clash \
         && echo "" || echo $date_log"err: ${err}" >> ${CFM_logs_file}
@@ -59,8 +63,8 @@ start_clash() {
 
     if [ ! -d ${Clash_data_dir}/confs/config ] ; then
         if [ ! "${use_config}" == "false" ]; then
-            echo $date_log"info: folder /confs/config tidak ditentukan." >> ${CFM_logs_file}
-            echo $date_log"info: create folder /confs/config." >> ${CFM_logs_file}
+            echo $date_log"info: 未找到/confs/config" >> ${CFM_logs_file}
+            echo $date_log"info: 创建folder /confs/config." >> ${CFM_logs_file}
             mkdir -p ${Clash_data_dir}/confs/config
         fi
     fi
@@ -69,14 +73,14 @@ start_clash() {
         if [ -f "${Clash_bin_path}" ] ; then
             echo $date_log"info: 使用Clash Premium内核" >> ${CFM_logs_file}
         else
-            echo $date_log"err: Core not detected ${Clash_bin_path}" >> ${CFM_logs_file}
+            echo $date_log"err: 未找到核心 ${Clash_bin_path}" >> ${CFM_logs_file}
             exit 1
         fi
     else
         if [ -f "${Clash_bin_path}" ] ; then
             echo $date_log"info: 使用Clash Meta内核" >> ${CFM_logs_file}
         else
-            echo $date_log"err: Core not detected ${Clash_bin_path}" >> ${CFM_logs_file}
+            echo $date_log"err: 未找到核心 ${Clash_bin_path}" >> ${CFM_logs_file}
             exit 1
         fi
     fi
@@ -97,7 +101,7 @@ start_clash() {
         mkdir -p /dev/net
         [ ! -L /dev/net/tun ] && ln -sf /dev/tun /dev/net/tun
         echo $date_log"info: 使用 [tun] 模式, 堆栈: [${Clash_stack_mode}] " >> ${CFM_logs_file}
-        echo $date_log"info: create /dev/net/tun." >> ${CFM_logs_file}
+        echo $date_log"info: 创建 /dev/net/tun." >> ${CFM_logs_file}
         sed -i 's/listen:.*/listen: ""/' /data/clash/template
         sed -i 's/tproxy-port:.*/tproxy-port: 0/' /data/clash/template
     else
@@ -117,11 +121,11 @@ start_clash() {
            sed -n -E '/^proxies:$/,$p' ${Clash_config_file} >> ${temporary_config_file}.swp
            sed -i '/^[  ]*$/d' ${temporary_config_file}.swp
         else
-           echo $date_log"err: files ${Clash_config_file} not found !!!" >> ${CFM_logs_file}
+           echo $date_log"err: ${Clash_config_file} 未找到" >> ${CFM_logs_file}
            exit 1
         fi
     else
-        echo $date_log"err: files ${Clash_dns} not found !!!" >> ${CFM_logs_file}
+        echo $date_log"err: ${Clash_dns} 未找到" >> ${CFM_logs_file}
         exit 1
     fi
 
@@ -129,7 +133,7 @@ start_clash() {
     && echo $date_log"info: 合并配置 ${Clash_config_file} 和模板成功" >> ${CFM_logs_file} || echo $date_log"err: merge files ${Clash_config_file} & template failed !!!" >> ${CFM_logs_file}
 
     if [ ! -f "${temporary_config_file}" ] ; then
-       echo $date_log"err: ${temporary_config_file} not found !!!." >> ${CFM_logs_file}
+       echo $date_log"err: ${temporary_config_file} 未找到" >> ${CFM_logs_file}
        exit 1
     fi
 
@@ -199,13 +203,13 @@ start_clash() {
                     echo $date_log"info: Cgroup内存限制状态: ${Cgroup_memory}" >> ${CFM_logs_file}
                 fi
                 sleep 0.5
-                echo "━━━━━━以下为clash内核启动日志━━━━━━━" >> ${CFM_logs_file}
+                echo "━━━━━━以下为clash内核日志━━━━━━━━━━━" >> ${CFM_logs_file}
                 sed -i s/.*msg=// ${Clash_run_path}/config.logs
                 sed -i 's/configuration file*//' /data/clash/run/config.logs
                 while read p; do
                     echo ${date_log}"info:" "$p" >> ${CFM_logs_file}
                 done <${Clash_run_path}/config.logs
-                echo "━━━━━━Clash内核已成功启动━━━━━━━━━" >> ${CFM_logs_file}
+                echo "━━━━━━Clash内核已成功启动━━━━━━━━━━━" >> ${CFM_logs_file}
             else
                 echo "━━━Clash内核启动失败 以下为报错信息━━━" >> ${CFM_logs_file}
                 sed -i s/.*msg=// ${Clash_run_path}/config.logs
@@ -227,7 +231,7 @@ start_clash() {
             exit 1
         fi
     else
-        echo $date_log"err: ${Clash_config_file} not found." >> ${CFM_logs_file}
+        echo $date_log"err: ${Clash_config_file}未找到" >> ${CFM_logs_file}
         exit 1
     fi
 

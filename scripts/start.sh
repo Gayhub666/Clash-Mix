@@ -17,10 +17,6 @@ if [ -f ${Clash_pid_file} ] ; then
 fi
 
 start_service() {
-  if [ -f /data/clash/run/run.logs ] ; then
-     mv data/clash/run/run.log data/clash/run/log.old
-  fi
-  sleep 1
   ${scripts_dir}/clash.service -s
   if [ -f /data/clash/run/clash.pid ] ; then
     ${scripts_dir}/clash.iptables -s
