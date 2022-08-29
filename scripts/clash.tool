@@ -83,14 +83,14 @@ find_packages_uid() {
         for package in `cat ${filter_packages_file} | sort -u` ; do
             ${busybox_path} awk '$1~/'^"${package}"$'/{print $2}' ${system_packages_file} >> ${appuid_file}
             if [ "${mode}" = "blacklist" ] ; then
-                echo $date_log"info: ${package} di filter " >> ${CFM_logs_file}
+                echo $date_log"info: ${package} 已加入黑名单" >> ${CFM_logs_file}
             elif [ "${mode}" = "whitelist" ] ; then
-                echo $date_log"info: ${package} diproksi." >> ${CFM_logs_file}
+                echo $date_log"info: ${package} 的流量将被代理" >> ${CFM_logs_file}
             fi
         done
     else
-        echo $date_log"info: filter/bypass turned off" >> ${CFM_logs_file}
-        echo $date_log"info: set (enhanced-mode: redir-host) to activate the filter" >> ${CFM_logs_file}
+        echo $date_log"info: 过滤器已关闭" >> ${CFM_logs_file}
+        echo $date_log"info: 设置为redir-host才能使用过滤器" >> ${CFM_logs_file}
     fi
 }
 
@@ -232,11 +232,11 @@ port_detection() {
     if (ss -h > /dev/null 2>&1) ; then
         clash_port=$(ss -antup | grep "clash" | ${busybox_path} awk '$7~/'pid="${clash_pid}"*'/{print $5}' | ${busybox_path} awk -F ':' '{print $2}' | sort -u)
     else
-        echo $date_log"info: skip port detected" >> ${CFM_logs_file}
+        echo $date_log"info: 跳过端口检测" >> ${CFM_logs_file}
         exit 0
     fi
 
-    echo -n $date_log"info: port detected: " >> ${CFM_logs_file}
+    echo -n $date_log"info: p已检测到端口: " >> ${CFM_logs_file}
     for sub_port in ${clash_port[*]} ; do
         sleep 1
         echo -n "${sub_port} " >> ${CFM_logs_file}
@@ -315,8 +315,8 @@ update_core() {
                     rm -rf /data/clash/"${file_core}".gz
                 fi
                 if [ -f /data/clash/run/clash.pid ]; then
-                    echo $date_log"info: Clash service is running (PID: `cat ${Clash_pid_file}`)" >> ${CFM_logs_file}
-                    echo $date_log"info: Connect" >> ${CFM_logs_file}
+                    echo $date_log"info: Clash服务正在运行 (PID: `cat ${Clash_pid_file}`)" >> ${CFM_logs_file}
+                    echo $date_log"info: 已连接" >> ${CFM_logs_file}
                 fi
                 exit 1
             fi

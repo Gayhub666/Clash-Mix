@@ -27,7 +27,7 @@ done
 UpStart(){
 i=1;
 
-echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 更新订阅流量." >> ${CFM_logs_file}
+echo [`TZ=Asia/Shanghai date "+%H:%M:%S"`]"info: 更新订阅流量信息一次." >> ${CFM_logs_file}
 
 sums=$(cat "${Clash_config_file}" | wc -l)
 #echo $(($sums-1))

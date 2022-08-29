@@ -452,46 +452,46 @@ while getopts ":sk" signal ; do
         s)
            if [ "${Clash_tun_status}" == "false" ]; then
                flush_rule_rules && flush_rules &>> /data/clash/run/service.log
-               echo $date_log"warn: scripts refresh Iptables tproxy" >> ${CFM_logs_file}
+               echo $date_log"warn: tun已关闭 使用tproxy" >> ${CFM_logs_file}
                sleep 0.5
                create_rule_rules && apply_rules &>> /data/clash/run/service.log
-               echo $date_log"info: scripts Iptables tproxy diterapkan" >> ${CFM_logs_file}
+               echo $date_log"info: 已执行tproxy的IPtables脚本" >> ${CFM_logs_file}
            else
                rm -rf /data/clash/run/lastwifi
                rm -rf /data/clash/run/lastmobile
                if [ "${Clash_auto_detect_interface}" == "true" ]; then
                     stop_tun_portabel &>> /data/clash/run/service.log
-                    echo $date_log"warn: refresh tun diterapkan" >> ${CFM_logs_file}
+                    echo $date_log"warn: 切换到tun（启用自动选择网卡）" >> ${CFM_logs_file}
                     sleep 0.5
                     start_tun_portabel &>> /data/clash/run/service.log
-                    echo $date_log"info: tun diterapkan" >> ${CFM_logs_file}
+                    echo $date_log"info: 已应用tun模式" >> ${CFM_logs_file}
                else
                   stop_tun &>> /data/clash/run/service.log
-                  echo $date_log"warn: refresh scripts Iptables tun" >> ${CFM_logs_file}
+                  echo $date_log"warn: 切换到tun（关闭自动选择网卡）" >> ${CFM_logs_file}
                   sleep 0.5
                   start_tun &>> /data/clash/run/service.log
-                  echo $date_log"info: scripts Iptables tun diterapkan" >> ${CFM_logs_file}
+                  echo $date_log"info: 已执行tun的IPtables脚本" >> ${CFM_logs_file}
                fi
            fi
            rm -rf /data/clash/run/config.logs
            rm -rf /data/clash/run/cmdRunning
-           echo $date_log"info: Clash service is running (PID: `cat ${Clash_pid_file}`)" >> ${CFM_logs_file}
-           echo $date_log"info: Connect" >> ${CFM_logs_file}
+           echo $date_log"info: Clash核心正在运行 (PID: `cat ${Clash_pid_file}`)" >> ${CFM_logs_file}
+           echo $date_log"info: 已连接" >> ${CFM_logs_file}
            ;;
         k)
             if [ "${Clash_tun_status}" == "false" ]; then
                 flush_rule_rules && flush_rules &>> /data/clash/run/service.log
-                echo $date_log"warn: scripts Iptables tproxy dihapus" >> ${CFM_logs_file}
+                echo $date_log"warn: tproxy IPtable脚本已清除" >> ${CFM_logs_file}
             else
                 if [ "${Clash_auto_detect_interface}" == "true" ]; then
                     stop_tun_portabel &>> /data/clash/run/service.log
-                    echo $date_log"warn: tun dihapus," >> ${CFM_logs_file}
+                    echo $date_log"warn: tun 已关闭" >> ${CFM_logs_file}
                 else
                     stop_tun &>> /data/clash/run/service.log
-                    echo $date_log"warn: scripts Iptables tun dihapus," >> ${CFM_logs_file}
+                    echo $date_log"warn: tun IPtables脚本已清除" >> ${CFM_logs_file}
                 fi
             fi
-            echo $date_log"warn: disConnect" >> ${CFM_logs_file}
+            echo $date_log"warn: 已断开" >> ${CFM_logs_file}
             ;;
         ?)
             echo ""

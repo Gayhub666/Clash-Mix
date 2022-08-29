@@ -11,7 +11,7 @@ start_clash() {
     if [ "${config_online}" == "true" ] ; then
         if ! [ "$(head -1 /data/clash/run/root)" == "disable" ] ; then
             if ! (${scripts_dir}/clash.tool -o) ; then
-                echo $date_log"err: failed to download config, make sure you are connected to the internet." >> ${CFM_logs_file}
+                echo $date_log"err: 下载配置文件失败 请确认网络连接正常" >> ${CFM_logs_file}
                 exit 1
             fi
         fi
@@ -37,7 +37,7 @@ start_clash() {
         ${Clash_bin_path} -v >> ${CFM_logs_file}
     fi
 
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >> ${CFM_logs_file}
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >> ${CFM_logs_file}
 
     if [ "${ipv6}" == "false" ] ; then
         echo 1 > /proc/sys/net/ipv6/conf/lo/disable_ipv6
@@ -67,48 +67,48 @@ start_clash() {
 
     if [ "${use_premium}" == "true" ]; then
         if [ -f "${Clash_bin_path}" ] ; then
-            echo $date_log"info: Using Clash Premium." >> ${CFM_logs_file}
+            echo $date_log"info: 使用Clash Premium内核" >> ${CFM_logs_file}
         else
             echo $date_log"err: Core not detected ${Clash_bin_path}" >> ${CFM_logs_file}
             exit 1
         fi
     else
         if [ -f "${Clash_bin_path}" ] ; then
-            echo $date_log"info: Using Clash Meta." >> ${CFM_logs_file}
+            echo $date_log"info: 使用Clash Meta内核" >> ${CFM_logs_file}
         else
             echo $date_log"err: Core not detected ${Clash_bin_path}" >> ${CFM_logs_file}
             exit 1
         fi
     fi
 
-    echo $date_log"info: Config ${Clash_config_file}." >> ${CFM_logs_file}
+    echo $date_log"info: 使用配置文件 ${Clash_config_file}." >> ${CFM_logs_file}
 
     local PID=`cat ${Clash_pid_file} 2> /dev/null`
     if (cat /proc/${PID}/cmdline | grep -q ${Clash_bin_name}) ; then
         ${scripts_dir}/clash.iptables -s
         exit 1
     else
-        echo $date_log"info: Executed Clash service." >> ${CFM_logs_file}
+        echo $date_log"info: 已执行Clash服务" >> ${CFM_logs_file}
     fi
 
-    echo $date_log"info: Status ipv6: ${ipv6}" >> ${CFM_logs_file}
+    echo $date_log"info: IPv6状态: ${ipv6}" >> ${CFM_logs_file}
 
     if [ "${Clash_tun_status}" == "true" ] ; then
         mkdir -p /dev/net
         [ ! -L /dev/net/tun ] && ln -sf /dev/tun /dev/net/tun
-        echo $date_log"info: using [tun] mode, stack: [${Clash_stack_mode}] " >> ${CFM_logs_file}
+        echo $date_log"info: 使用 [tun] 模式, 堆栈: [${Clash_stack_mode}] " >> ${CFM_logs_file}
         echo $date_log"info: create /dev/net/tun." >> ${CFM_logs_file}
         sed -i 's/listen:.*/listen: ""/' /data/clash/template
         sed -i 's/tproxy-port:.*/tproxy-port: 0/' /data/clash/template
     else
-        echo $date_log"info: using [tproxy] mode." >> ${CFM_logs_file}
+        echo $date_log"info: 使用 [tproxy] 模式" >> ${CFM_logs_file}
         sed -i 's/listen:.*/listen: 0.0.0.0:1053/' /data/clash/template
         sed -i 's/tproxy-port:.*/tproxy-port: 9898/' /data/clash/template
     fi
 
     if [ -f "${temporary_config_file}" ] ; then
         rm -rf ${temporary_config_file}
-        echo $date_log"info: refresh ${temporary_config_file}." >> ${CFM_logs_file}
+        echo $date_log"info: 重新合并配置文件和模板 ${temporary_config_file}." >> ${CFM_logs_file}
     fi
 
     if [ -f "${Clash_dns}" ] ; then
@@ -126,7 +126,7 @@ start_clash() {
     fi
 
     mv ${temporary_config_file}.swp ${temporary_config_file} \
-    && echo $date_log"info: merge files ${Clash_config_file} & template Succes." >> ${CFM_logs_file} || echo $date_log"err: merge files ${Clash_config_file} & template failed !!!" >> ${CFM_logs_file}
+    && echo $date_log"info: 合并配置 ${Clash_config_file} 和模板成功" >> ${CFM_logs_file} || echo $date_log"err: merge files ${Clash_config_file} & template failed !!!" >> ${CFM_logs_file}
 
     if [ ! -f "${temporary_config_file}" ] ; then
        echo $date_log"err: ${temporary_config_file} not found !!!." >> ${CFM_logs_file}
@@ -146,17 +146,17 @@ start_clash() {
 
         if [ ! "${schedule_update_core}" == "false" ]; then
             echo "${schedule_update_core} ${scripts_dir}/clash.tool -e" > ${Clash_run_path}/root \
-            && echo $date_log"info: schedule Update Core (${schedule_update_core})" >> ${CFM_logs_file}
+            && echo $date_log"info: 定时更新内核设置为 (${schedule_update_core})" >> ${CFM_logs_file}
         else
-            echo $date_log"info: schedule Update Core not active." >> ${CFM_logs_file}
+            echo $date_log"info: 定时更新内核未启用" >> ${CFM_logs_file}
         fi
 
         if [ ! "${update_interval}" == "false" ]; then
             echo "${update_interval} ${scripts_dir}/clash.tool -u" >> ${Clash_run_path}/root \
-            && echo $date_log"info: schedule Update GeoX & SubScription (${update_interval})." >> ${CFM_logs_file}
-            echo $date_log"info: Geo status: [${auto_updateGeoX}] | Subs status: (${auto_updateSubcript})." >> ${CFM_logs_file}
+            && echo $date_log"info: 定时更新Geo文件设置为 (${update_interval})." >> ${CFM_logs_file}
+            echo $date_log"info: Geo设置: [${auto_updateGeoX}] | 传统订阅状态: (${auto_updateSubcript})." >> ${CFM_logs_file}
         else
-            echo $date_log"info: schedule Update GeoX & Subs not active." >> ${CFM_logs_file}
+            echo $date_log"info: 定时更新Geo文件未启动" >> ${CFM_logs_file}
         fi
 
         if [ ! "${static_dns}" == "false" ]; then
@@ -170,9 +170,9 @@ start_clash() {
         sed -i '/^[  ]*$/d' ${CFM_logs_file}
         if [ "${filter_local}" == "true" ] && [ "${Clash_tun_status}" == "false" ] ; then
             clash_cron="${scripts_dir}/clash.tool -a"
-            echo "*/1 * * * * ${clash_cron}" >> ${Clash_run_path}/root && echo $date_log"warn: local ip auto bypass is turned on." >> ${CFM_logs_file}
+            echo "*/1 * * * * ${clash_cron}" >> ${Clash_run_path}/root && echo $date_log"warn: 自动绕过本机IP已打开，可能导致手机软重启" >> ${CFM_logs_file}
         else
-            echo $date_log"info: local ip auto bypass is turned off." >> ${CFM_logs_file}
+            echo $date_log"info: 自动绕过本地IP已关闭" >> ${CFM_logs_file}
         fi
         ${scripts_dir}/upSub.sh -s
         echo "0 * * * * ${scripts_dir}/upSub.sh -s " >> ${Clash_run_path}/root \
@@ -190,32 +190,31 @@ start_clash() {
                 ulimit -SHn 1000000
                 nohup /data/adb/magisk/busybox setuidgid 0:3005 ${Clash_bin_path} -d ${Clash_data_dir} -f ${temporary_config_file} > /dev/null  2>&1 & # /data/clash/run/DEBUG.`date`.log 2>&1 &
                 echo -n $! > ${Clash_pid_file}
-                echo $date_log"info: tcp-concurrent:${Clash_tcp_concurrent}" >> ${CFM_logs_file}
+                echo $date_log"info: tcp-concurrent状态:${Clash_tcp_concurrent}" >> ${CFM_logs_file}
 
                 if [ "${Cgroup_memory}" == "true" ] ; then
                     if ! (${scripts_dir}/clash.tool -l) ; then
                         echo -n ""
                     fi
                 else
-                    echo $date_log"info: Cgroup | status: ${Cgroup_memory}" >> ${CFM_logs_file}
+                    echo $date_log"info: Cgroup内存限制状态: ${Cgroup_memory}" >> ${CFM_logs_file}
                 fi
                 sleep 0.5
-#                echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >> ${CFM_logs_file}
+                echo "━━━━━━以下为clash内核启动日志━━━━━━━" >> ${CFM_logs_file}
                 sed -i s/.*msg=// ${Clash_run_path}/config.logs
                 sed -i 's/configuration file*//' /data/clash/run/config.logs
                 while read p; do
                     echo ${date_log}"info:" "$p" >> ${CFM_logs_file}
                 done <${Clash_run_path}/config.logs
-#                echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >> ${CFM_logs_file}
+                echo "━━━━━━Clash内核已成功启动━━━━━━━━━" >> ${CFM_logs_file}
             else
-#                echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >> ${CFM_logs_file}
+                echo "━━━Clash内核启动失败 以下为报错信息━━━" >> ${CFM_logs_file}
                 sed -i s/.*msg=// ${Clash_run_path}/config.logs
-#                sed -i 's/fatal msg=*//' /data/clash/run/config.logs
                 sed -i 's/configuration file*//' /data/clash/run/config.logs
                 while read p; do
                     echo ${date_log}"err:" "$p" >> ${CFM_logs_file}
                 done <${Clash_run_path}/config.logs
-#                echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >> ${CFM_logs_file}
+                echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >> ${CFM_logs_file}
                 if [ "${use_config}" == "false" ]; then
                     mv ${temporary_config_file} ${Clash_data_dir}/config.yaml
                 else
@@ -225,7 +224,7 @@ start_clash() {
                 exit 1
             fi
         else
-            echo $date_log"err: Core CFM error/broken/not supported ">> ${CFM_logs_file}
+            echo $date_log"err: 核心已损坏或不支持">> ${CFM_logs_file}
             exit 1
         fi
     else
@@ -238,7 +237,7 @@ start_clash() {
             exit 0
         fi
     else
-        echo $date_log"警告：已跳过端口检查 可能出现整机断网或无法代理流量等故障" >> ${CFM_logs_file}
+        echo $date_log"warn：已跳过端口检查 可能出现整机断网或无法代理流量等故障" >> ${CFM_logs_file}
     fi
 }
 
