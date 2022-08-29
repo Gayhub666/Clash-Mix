@@ -37,7 +37,7 @@ start_clash() {
         ${Clash_bin_path} -v >> ${CFM_logs_file}
     fi
 
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >> ${CFM_logs_file}
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━" >> ${CFM_logs_file}
 
     if [ "${ipv6}" == "false" ] ; then
         echo 1 > /proc/sys/net/ipv6/conf/lo/disable_ipv6

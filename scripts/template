@@ -10,6 +10,8 @@ geodata-mode: true
 #interface-name: en0        #出口网卡名称 可用来桥接VPN类软件
 external-controller: 0.0.0.0:9090
 external-ui: dashboard/dist
+#external-ui: dashboard/Razord
+#两个面板二选一
 tcp-concurrent: false
 interface-name: ""
 enable-process: true

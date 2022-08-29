@@ -69,7 +69,7 @@ create_mangle_prerouting_filter() {
 }
 
 create_mangle_output_filter() {
-    echo $date_log"info: filter/bypass (${mode}) turn on" >> ${CFM_logs_file}
+    echo $date_log"info: 过滤器(${mode})已启用" >> ${CFM_logs_file}
     ${scripts_dir}/clash.tool -f
 
     ${iptables_wait} -t mangle -N FILTER_OUT_CLASH
@@ -455,7 +455,7 @@ while getopts ":sk" signal ; do
                echo $date_log"warn: tun已关闭 使用tproxy" >> ${CFM_logs_file}
                sleep 0.5
                create_rule_rules && apply_rules &>> /data/clash/run/service.log
-               echo $date_log"info: 已执行tproxy的IPtables脚本" >> ${CFM_logs_file}
+               echo $date_log"info: 已执行tproxy-IPtables脚本" >> ${CFM_logs_file}
            else
                rm -rf /data/clash/run/lastwifi
                rm -rf /data/clash/run/lastmobile
@@ -470,7 +470,7 @@ while getopts ":sk" signal ; do
                   echo $date_log"warn: 切换到tun（关闭自动选择网卡）" >> ${CFM_logs_file}
                   sleep 0.5
                   start_tun &>> /data/clash/run/service.log
-                  echo $date_log"info: 已执行tun的IPtables脚本" >> ${CFM_logs_file}
+                  echo $date_log"info: 已执行tun-IPtables脚本" >> ${CFM_logs_file}
                fi
            fi
            rm -rf /data/clash/run/config.logs

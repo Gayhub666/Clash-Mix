@@ -137,7 +137,20 @@ rm -rf ${MODPATH}/GeoX
 rm -rf ${MODPATH}/binary
 rm -rf ${MODPATH}/clash_service.sh
 rm -rf ${clash_data_dir}/scripts/config.yaml
-sleep 1
+sleep 2
+
+if [  -f "${clash_data_dir}/clash.old/config.yaml" ] ; then
+    ui_print "- 本次安装为模块升级，已恢复原订阅链接"
+    mv ${clash_data_dir}/clash.old/config.yaml ${clash_data_dir}/
+else 
+    if [  -f "data/clash.delete/config.yaml" ] ; then
+    ui_print "- 检测到上次卸载Clash模块时的配置信息（内含订阅链接），已移动到Clash/旧订配置 如需要，请自行复制订阅链接"
+    mv data/clash.delete/config.yaml ${clash_data_dir}/旧配置文件
+    else
+    ui_print "- 全新安装 请根据提示在指定位置填写订阅链接" 
+    fi
+fi
+sleep2
 
 ui_print "- 正在更新模块信息"
 rm -rf ${MODPATH}/module.prop

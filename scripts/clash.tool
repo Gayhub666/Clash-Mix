@@ -90,7 +90,7 @@ find_packages_uid() {
         done
     else
         echo $date_log"info: 过滤器已关闭" >> ${CFM_logs_file}
-        echo $date_log"info: 设置为redir-host才能使用过滤器" >> ${CFM_logs_file}
+        echo $date_log"info: 设置为redir-host才能启用过滤器" >> ${CFM_logs_file}
     fi
 }
 
@@ -236,7 +236,7 @@ port_detection() {
         exit 0
     fi
 
-    echo -n $date_log"info: p已检测到端口: " >> ${CFM_logs_file}
+    echo -n $date_log"info: 已检测到端口: " >> ${CFM_logs_file}
     for sub_port in ${clash_port[*]} ; do
         sleep 1
         echo -n "${sub_port} " >> ${CFM_logs_file}
