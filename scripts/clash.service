@@ -108,7 +108,7 @@ start_clash() {
 
     if [ -f "${temporary_config_file}" ] ; then
         rm -rf ${temporary_config_file}
-        echo $date_log"info: 重新合并配置文件和模板 ${temporary_config_file}." >> ${CFM_logs_file}
+        echo $date_log"info: 合并配置和模板到 ${temporary_config_file}." >> ${CFM_logs_file}
     fi
 
     if [ -f "${Clash_dns}" ] ; then
@@ -161,10 +161,9 @@ start_clash() {
 
         if [ ! "${static_dns}" == "false" ]; then
             echo "*/1 * * * * ${scripts_dir}/clash.tool -k" >> ${Clash_run_path}/root \
-            && echo $date_log"warn: set static dns: ${static_dns}." >> ${CFM_logs_file}
-            echo $date_log"info: static dns: ${static_dns}." >> ${CFM_logs_file}
+            && echo $date_log"warn: 静态dns已启用: ${static_dns}." >> ${CFM_logs_file}
         else
-            echo $date_log"info: static dns: ${static_dns}." >> ${CFM_logs_file}
+            echo $date_log"info: 静态dns状态: ${static_dns}." >> ${CFM_logs_file}
         fi
 
         sed -i '/^[  ]*$/d' ${CFM_logs_file}

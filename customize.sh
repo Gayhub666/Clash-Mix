@@ -202,9 +202,8 @@ set_perm  ${clash_data_dir}/confs/ 0  0  0755
 #ui_print "- ↑显示Success即为安装完成."
 #ui_print "- 如果失败请手动安装 安装包文件在:/data/clash/备用/控制器.apk"
 #fi
-sleep 1
+sleep 3
 ui_print "- dashboard已安装为系统应用，卸载模块后会自动删除"
-sleep 1
 ui_print "- 标准版请进入data/clash/config.yaml 指定位置填写订阅链接"
 ui_print "- 免流版 极简版请打开/data/clash/confs/查看说明"
 ui_print "- 在对应配置文件内填写订阅链接并在控制台切换到相应配置文件"

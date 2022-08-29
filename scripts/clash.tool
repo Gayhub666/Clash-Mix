@@ -123,9 +123,9 @@ restart_clash() {
 
     ${scripts_dir}/clash.service -s && ${scripts_dir}/clash.iptables -s
     if [ "$?" == "0" ]; then
-        echo $date_log"warn: Clash berhasil dimulai ulang." >>${CFM_logs_file}
+        echo $date_log"warn: Clash内核重启成功" >>${CFM_logs_file}
     else
-        echo $date_log"err: Clash Gagal dimulai ulang." >>${CFM_logs_file}
+        echo $date_log"err: Clash内核重启失败" >>${CFM_logs_file}
     fi
 }
 
