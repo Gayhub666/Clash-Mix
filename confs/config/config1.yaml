@@ -1,4 +1,4 @@
-
+#！！！本地免流版！！！
 proxies:
 #此处用来放本地免流配置，本地免流只能免80/443端口的TCP，其他连接（包括所有udp）不行
   - name: "百度免流"
@@ -117,22 +117,12 @@ proxy-groups:
       - 墙内网址
 
 rule-providers:
-  AppProxy:
-    type: file
-    behavior: classical
-    path: ./rule_providers/AppProxy.yaml
-  AppDirect:
-    type: file
-    behavior: classical
-    path: ./rule_providers/AppDirect.yaml
   userDirect:
     type: file
     behavior: classical
     path: ./rule_providers/userDirect.yaml
     #用户自定义直连，文件在data/clash/rule-provider/userdirect，需要的自己写入，格式参照备用里面的clash官方文档
 rules:
-  - RULE-SET,AppProxy,机场
-  - RULE-SET,AppDirect,墙内网址
   - RULE-SET,userDirect,DIRECT
   - GEOSITE,category-ads-all,REJECT
   - GEOIP,private,DIRECT

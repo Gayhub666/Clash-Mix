@@ -119,7 +119,7 @@ if [ ! -f "${clash_service_dir}/clash_service.sh" ] ; then
 fi
 
 ui_print "- 正在安装内核 $ARCH"
-tar -xjf ${MODPATH}/binary/${ARCH}.tar.bz2 -C ${clash_data_dir_core}/&& echo "- extar Core Succes" || echo "- extar Core gagal"
+tar -xjf ${MODPATH}/binary/${ARCH}.tar.bz2 -C ${clash_data_dir_core}/&& echo "- 解压内核成功" || echo "- 解压内核失败"
 mv ${clash_data_dir_core}/setcap ${MODPATH}${bin_path}/
 mv ${clash_data_dir_core}/getpcaps ${MODPATH}${bin_path}/
 mv ${clash_data_dir_core}/getcap ${MODPATH}${bin_path}/
@@ -147,7 +147,7 @@ echo "name=Clash For Magisk" >> ${MODPATH}/module.prop
 echo "version=v1.13.0" >> ${MODPATH}/module.prop
 echo "versionCode=20220724" >> ${MODPATH}/module.prop
 echo "author=t@amarin 魔改" >> ${MODPATH}/module.prop
-echo "description= Clash透明代理 内核版本 meta1.13.1" >> ${MODPATH}/module.prop
+echo "description= Clash透明代理 内核版本：meta1.13.1" >> ${MODPATH}/module.prop
 
 ui_print "- 正在设置权限"
 set_perm_recursive ${MODPATH} 0 0 0755 0644
@@ -180,17 +180,18 @@ set_perm  ${clash_data_dir}/proxy_providers/ 0  0  0755
 set_perm  ${clash_data_dir}/备用/ 0  0  0755
 set_perm  ${clash_data_dir}/confs/ 0  0  0755
 
-#安装控制器
-if [ "$(pm list packages | grep xyz.chz.clash)" ] || [ "$(pm list packages | grep -s xyz.chz.clash)" ];then
-ui_print "- 无需安装DashBoard."
-else
-ui_print "- 开始安装DashBoard."
-pm install -r --user 0 data/clash/备用/控制器.apk
-ui_print "- ↑显示Success即为安装完成."
-ui_print "- 如果失败请手动安装 安装包文件在:/data/clash/备用/控制器.apk"
-fi
-
-ui_print "- 模块安装已完成"
+#安装控制器 已使用新方案，在任何机型上都能正常发挥作用
+#if [ "$(pm list packages | grep xyz.chz.clash)" ] || [ "$(pm list packages | grep -s xyz.chz.clash)" ];then
+#ui_print "- 无需安装DashBoard."
+#else
+#ui_print "- 开始安装DashBoard."
+#pm install -r --user 0 data/clash/备用/控制器.apk
+#ui_print "- ↑显示Success即为安装完成."
+#ui_print "- 如果失败请手动安装 安装包文件在:/data/clash/备用/控制器.apk"
+#fi
+sleep 1
+ui_print "- dashboard已安装为系统应用，卸载模块后会自动删除"
+sleep 1
 ui_print "- 标准版请进入data/clash/config.yaml 指定位置填写订阅链接"
 ui_print "- 免流版 极简版请打开/data/clash/confs/查看说明"
 ui_print "- 在对应配置文件内填写订阅链接并在控制台切换到相应配置文件"

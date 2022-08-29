@@ -1,11 +1,23 @@
+# ！！！！！测试版自动开关免流！！！！还没完成 请勿使用！！！！！
 proxies:
+#此处用来放本地免流配置，本地免流只能免80/443端口的TCP，其他连接（包括所有udp）不行
+  - name: "百度免流"
+    type: http
+    server: 157.0.148.53
+    port: 443
+    headers:
+      X-T5-Auth: "1962898709"
+      User-Agent:
+        "okhttp/3.11.0 Dalvik/2.1.0 (Linux; U; Android 11; Redmi K30 5G Build/RKQ1.200826.002)
+        baiduboxapp/11.0.5.12 (Baidu; P1 11)"
+
 proxy-providers:
   
   可乐云:
     type: http
-    url: "订阅链接地址"
+    url: "https://www.naiun.co/api/v1/client/subscribe?token=bb71ad25fd1d7341560483c7b78a61a7"
     path: ./proxy_providers/可乐云.yaml
-    interval: 10800
+    interval: 21600
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
@@ -14,13 +26,11 @@ proxy-providers:
     type: http
     url: "订阅链接地址"
     path: ./proxy_providers/魔戒.yaml
-    interval: 10800
+    interval: 21600
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
       interval: 1800
-#使用p核时，如果无法正常更新订阅，请打开proxy provider 里面的机场yaml配置文件查看
-#如果是乱码，需要自己在订阅链接结尾加上 &flag=clash  强制订阅服务器下发clash的配置文件
   备用:
     type: http
     url: "在底下选一个吧，如果有好的欢迎提交"
@@ -30,7 +40,6 @@ proxy-providers:
       enable: true
       url: http://www.gstatic.com/generate_204
       interval: 1800
-
 #欢迎提交更多白嫖订阅
 #https://pastebin.com/raw/GxR5pELe
 #https://openit.daycat.space/clash
@@ -70,24 +79,59 @@ proxy-groups:
       - 魔戒
       - 备用
     filter: '美国|USA|美國'
-#meta的特性，如果你经常使用某个地区节点可以使用过滤器便于选择 美国节点 可以改为其他
-#但是要改就得全改，建议使用编辑器的替换功能防止遗漏。过滤器内容用 | 分割，支持通配符
+
   - name: 负载均衡
     type: load-balance
     use:
       - 可乐云
-      - 魔戒
     url: 'http://www.gstatic.com/generate_204'
     interval: 1800
     filter: '美国|USA|美國.*1.0'
     strategy: consistent-hashing
-
-
+#meta的特性，如果你经常使用某个地区节点可以使用过滤器便于选择 美国节点 可以改为其他名称
+#但是要改就得全改 ，建议使用文本编辑器的替换功能避免遗漏；过滤器内容用 | 分割，支持通配符
+#可乐云性增加了负载均衡节点
   - name: 墙内网址
     type: select
     proxies:
       - DIRECT
       - 机场
+
+  - name: 墙内可免
+    type: select
+    proxies:
+      - 墙内网址
+      - 本地免流
+
+  - name: 本地免流
+    type: select
+    proxies:
+      - 百度免流
+
+
+
+
+  # 配置指定 interface-name 和 fwmark 的 DIRECT
+  - name: wlan0
+    type: select
+    interface-name: en1
+    routing-mark: 6667
+    proxies:
+      - DIRECT
+
+
+
+  # 配置指定 interface-name 和 fwmark 的 DIRECT
+  - name: en1
+    type: select
+    interface-name: 此处应填入你的流量的网卡名，自行使用检测器检测
+    routing-mark: 6667
+    use:
+      - 墙内可免
+
+
+
+
 
   - name: 其他
     type: select
@@ -103,11 +147,19 @@ rule-providers:
     path: ./rule_providers/userDirect.yaml
     #用户自定义直连，文件在data/clash/rule-provider/userdirect，需要的自己写入，格式参照备用里面的clash官方文档
 rules:
-  - RULE-SET,userDirect,墙内网址
+  - RULE-SET,userDirect,DIRECT
   - GEOSITE,category-ads-all,REJECT
-  - GEOSITE,geolocation-cn,墙内网址
-  - GEOSITE,geolocation-!cn,机场
   - GEOIP,private,DIRECT
+#-------免流相关规则
+  #此处应有把微信qq支付宝等事逼不走免流的规则，让我看看geo教程
+  - AND,((NETWORK,TCP),(GEOSITE,geolocation-cn),(DST-PORT,80/443)),墙内可免
+  - AND,((NETWORK,UDP),(GEOSITE,geolocation-cn)),墙内网址
+  - GEOSITE,geolocation-cn,墙内网址
+
+  - AND,((NETWORK,TCP),(GEOIP,CN,no-resolve),(DST-PORT,80/443)),墙内可免
+  - AND,((NETWORK,UDP),(GEOIP,CN,no-resolve)),墙内网址
   - GEOIP,CN,墙内网址
+#-----------------墙外流量
+  - GEOSITE,geolocation-!cn,机场
   - GEOIP,!CN,机场
   - MATCH,其他

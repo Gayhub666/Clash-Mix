@@ -33,6 +33,9 @@ rules:
 PATH=$PATH:/data/data/com.termux/files/usr/bin/
 即可在任意终端使用系统没有而 Termux 有的命令.
 
+meta内核实时更新的配置文件教程地址：
+https://github.com/MetaCubeX/Clash.Meta/blob/Alpha/docs/config.yaml
+
 ------------------------------------------以下为部分可自行替换配置，更多配置请看 可参考模板 文件夹内配置-----------------------------------------------
 负载均衡实列
 proxy-groups:
