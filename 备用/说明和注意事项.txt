@@ -2,6 +2,11 @@
 打开data/clash/clash.confug
 就可以看到可以添加包名的地方，记得用一个一行写在双引号里面
 scripts文件夹下打开终端输入 ./upSub.sh -s  即可手动更新套餐信息，默认为1小时自动更新一次
+安装模块自动安装汉化版控制器，可以自行选装大王版控制器
+
+对于热点机用户，备用 文件夹中附带了一个xposed模块，用于固定热点机的IP地址
+这样可以在连接的终端上方便的远程访问dashboard进行节点切换等操作
+该软件更新地址   https://github.com/XhyEax/SoftApHelper/releases/tag/v1.010
 
 通配符说明 适用于过滤器
 [转发自频道 Kattesnive (kattesnive)]

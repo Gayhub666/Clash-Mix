@@ -136,7 +136,7 @@ update_file() {
 
         if [ -f ${file} ]; then
             mv -f ${file} ${file_bak}
-            echo $date_log"warn: backup file ${file_bak}" >> ${CFM_logs_file}
+            echo $date_log"warn: 备份文件 ${file_bak}" >> ${CFM_logs_file}
         fi
         echo "curl -k --insecure -L -A 'clash' ${update_url} -o ${file}"
         curl -k --insecure -L -A 'clash' ${update_url} -o ${file} 2>&1
@@ -144,12 +144,12 @@ update_file() {
         sleep 0.5
 
         if [ -f "${file}" ] ; then
-            echo $date_log"info: `date` Update ${file} done." >> ${CFM_logs_file}
+            echo $date_log"info: `date` 更新 ${file} 成功" >> ${CFM_logs_file}
         else
-            echo $date_log"err: `date` Update ${file} failed." >> ${CFM_logs_file}
+            echo $date_log"err: `date` 更新 ${file} 失败" >> ${CFM_logs_file}
             if [ -f "${file_bak}" ]; then
                 mv ${file_bak} ${file}
-                echo $date_log"warn: `date` restore ${file}." >> ${CFM_logs_file}
+                echo $date_log"warn: `date` 已恢复 ${file}." >> ${CFM_logs_file}
             fi
         fi
 }
@@ -182,7 +182,7 @@ auto_update() {
             restart_clash
         fi
     else
-        echo $date_log"warn: Clash tidak dimulai ulang" >> ${CFM_logs_file}
+        echo $date_log"warn: 更新完成 clash重启失败" >> ${CFM_logs_file}
     fi
 }
 

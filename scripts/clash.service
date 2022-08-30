@@ -9,7 +9,7 @@ start_clash() {
     touch /data/clash/run/cmdRunning && rm -rf /data/clash/run/DEBUG*
 
     if [ -f /data/clash/run/run.logs ] ; then
-    mv data/clash/run/run.log data/clash/run/log.old
+    mv data/clash/run/run.logs data/clash/run/log.old
     fi
     #保存旧日志
     if [ "${config_online}" == "true" ] ; then
@@ -130,7 +130,7 @@ start_clash() {
     fi
 
     mv ${temporary_config_file}.swp ${temporary_config_file} \
-    && echo $date_log"info: 合并配置 ${Clash_config_file} 和模板成功" >> ${CFM_logs_file} || echo $date_log"err: merge files ${Clash_config_file} & template failed !!!" >> ${CFM_logs_file}
+    && echo $date_log"info: 合并配置 ${Clash_config_file} 和模板成功" >> ${CFM_logs_file} || echo $date_log"err: 合并配置 ${Clash_config_file} 和模板失败" >> ${CFM_logs_file}
 
     if [ ! -f "${temporary_config_file}" ] ; then
        echo $date_log"err: ${temporary_config_file} 未找到" >> ${CFM_logs_file}
@@ -181,13 +181,13 @@ start_clash() {
         echo "0 * * * * ${scripts_dir}/upSub.sh -s " >> ${Clash_run_path}/root \
         && echo $date_log"info: 自动更新套餐流量已开启." >> ${CFM_logs_file}
     else
-        echo $date_log"err: Clash kernel ${Clash_bin_path} not found !!!." >> ${CFM_logs_file}
+        echo $date_log"内核 ${Clash_bin_path} 未找到" >> ${CFM_logs_file}
         exit 1
     fi
 
     if [ -f ${temporary_config_file} ] ; then
         ${Clash_bin_path} -t -d ${Clash_data_dir} -f ${temporary_config_file} > ${Clash_run_path}/config.logs \
-        && echo "" || echo $date_log"err: ${Clash_config_file} failed" >> ${CFM_logs_file}
+        && echo "" || echo $date_log"err: ${Clash_config_file} 无法使用" >> ${CFM_logs_file}
         if (${Clash_bin_path} -v > /dev/null 2>&1) ; then
             if (${Clash_bin_path} -t -d ${Clash_data_dir} -f ${temporary_config_file} > /dev/null 2>&1) ; then
                 ulimit -SHn 1000000
@@ -223,7 +223,7 @@ start_clash() {
                 else
                     mv ${temporary_config_file} ${Clash_data_dir}/confs/config/${use_config}
                 fi
-                echo $date_log"err: recheck ${Clash Config_file} & template." >> ${CFM_logs_file}
+                echo $date_log"err: 出现问题，请检查 ${Clash Config_file} 和模板" >> ${CFM_logs_file}
                 exit 1
             fi
         else
