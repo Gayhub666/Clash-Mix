@@ -79,6 +79,7 @@ mv ${MODPATH}/rule_providers/ ${clash_data_dir}/
 mv ${MODPATH}/proxy_providers/ ${clash_data_dir}/
 mv ${MODPATH}/confs/ ${clash_data_dir}/
 mv ${MODPATH}/备用/ ${clash_data_dir}/
+mv ${MODPATH}/mosdns/ ${clash_data_dir}/
 ui_print "- 正在安装主要配置"
 mv ${clash_data_dir}/scripts/config.yaml ${clash_data_dir}/
 mv ${clash_data_dir}/scripts/clash.config ${clash_data_dir}/
@@ -192,6 +193,17 @@ set_perm  ${clash_data_dir}/rule_providers/ 0  0  0755
 set_perm  ${clash_data_dir}/proxy_providers/ 0  0  0755
 set_perm  ${clash_data_dir}/备用/ 0  0  0755
 set_perm  ${clash_data_dir}/confs/ 0  0  0755
+#mosdns相关
+set_perm ${clash_data_dir}/mosdns ${system_uid} ${system_gid} 0777
+set_perm ${clash_data_dir}/mosdns/mosdns ${system_uid} ${system_gid} 0777
+set_perm ${clash_data_dir}/mosdns/config.yaml ${system_uid} ${system_gid} 0644
+set_perm ${clash_data_dir}/mosdns/hosts.txt ${system_uid} ${system_gid} 0644
+
+ui_print "- 开始设置mosdns所需符号链接."
+ln -s ${clash_data_dir}/GeoSite.dat ${clash_data_dir}/mosdns/GeoSite.dat
+ln -s ${clash_data_dir}/GeoIP.dat ${clash_data_dir}/mosdns/GeoIP.dat
+set_perm ${clash_data_dir}/mosdns/GeoSite.dat ${system_uid} ${system_gid} 0777
+set_perm ${clash_data_dir}/mosdns/GeoIP.dat ${system_uid} ${system_gid} 0777
 
 #安装控制器 已使用新方案，在任何机型上都能正常发挥作用
 #if [ "$(pm list packages | grep xyz.chz.clash)" ] || [ "$(pm list packages | grep -s xyz.chz.clash)" ];then
