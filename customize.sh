@@ -161,7 +161,7 @@ echo "name=Clash For Magisk" >> ${MODPATH}/module.prop
 echo "version=v1.13.0" >> ${MODPATH}/module.prop
 echo "versionCode=20220724" >> ${MODPATH}/module.prop
 echo "author=t@amarin 魔改" >> ${MODPATH}/module.prop
-echo "description= Clash透明代理 内核版本：meta1.13.1" >> ${MODPATH}/module.prop
+echo "description= Clash透明代理 Mosdns 内核版本：meta1.13.1" >> ${MODPATH}/module.prop
 
 ui_print "- 正在设置权限"
 set_perm_recursive ${MODPATH} 0 0 0755 0644
