@@ -48,12 +48,15 @@ dns:
   ipv6: false
   prefer-h3: false  #这是什么鬼东西
   enhanced-mode: redir-host # fake-ip
+  listen: 0.0.0.0:1053
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter:
     - localhost.ptlogin2.qq.com
     - '*.lan'
     - '*.linksys.com'
     - '*.ntp.*'
+    - '+.lan'
+    - '+.cn'
   nameserver:
     - 127.0.0.1:23353
   proxy-server-nameserver:

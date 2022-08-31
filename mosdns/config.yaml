@@ -75,6 +75,14 @@ plugins:
       ip:
         - provider:geoip:cn
 
+#  - tag: clash
+#    type: fast_forward
+#    args:
+#      upstream:
+#        - addr: 127.0.0.1:1053
+#          idle_timeout: 86400
+#          trusted: true
+#亚托利的一个配置
   - tag: query_is_ad_domain
     type: query_matcher
     args:
