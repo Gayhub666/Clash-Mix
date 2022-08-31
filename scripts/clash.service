@@ -7,6 +7,15 @@ mos_err=0
 
 #碎碎念 上面的是mosdns的故障信号 每次启动时候会被重置为0
 #启动mosdns时候如果遇到问题会变成1，然后启动clash的函数检测到1会直接退出
+fuck_log() {
+    if [ -f /data/clash/run/run.logs ] ; then
+    mv data/clash/run/run.logs data/clash/run/log.old
+    fi
+    rm -rf  /data/clash/run/mosdns.log
+    #清除mosdns日志
+    echo '' > ${mosdns_logs_file}
+    rm -f ${mos_kernel_logs_file}
+}
 
 start_mos() {
     if [ "${run_mode}" == "1" ]; then
@@ -24,20 +33,22 @@ start_mos() {
     fi
 
     if [ -f ${mosdns_config_file} ] ; then
-      if [ "${run_mode}" == "1" ]; then
-        nohup ${mosdns_bin_path} start -d ${mosdns_data_dir} > ${mosdns_logs_file} 2>&1 &
-        echo -n $! "" > ${mos_pid_file}
-        sleep 0.05
-        mosdns_run_pid=`cat ${mos_pid_file} 2> /dev/null | awk -F ' ' '{print $1}'`
-        if (cat /proc/${mosdns_run_pid}/cmdline | grep -q mosdns) ; then
-          echo $date_log"info: mosdns已启动." > ${CFM_logs_file}
+        if [ "${run_mode}" == "1" ]; then
+          nohup ${mosdns_bin_path} start -d ${mosdns_data_dir} > ${mosdns_logs_file} 2>&1 &
+          echo -n $! "" > ${mos_pid_file}
+          sleep 0.05
+          mosdns_run_pid=`cat ${mos_pid_file} 2> /dev/null | awk -F ' ' '{print $1}'`
+            if (cat /proc/${mosdns_run_pid}/cmdline | grep -q mosdns) ; then
+              echo $date_log"info: mosdns已启动." > ${CFM_logs_file}
+            else
+              echo $date_log"error: mosdns配置有误,启动失败,以下为错误" >> ${CFM_logs_file}
+              echo $date_log"$(cat /data/clash/run/mosdns.log1 | grep Error)" >> ${CFM_logs_file}
+              mos_err=1
+              exit 1
+            fi
         else
-           echo $date_log"error: mosdns配置有误,启动失败,以下为错误" >> ${CFM_logs_file}
-          echo $date_log"$(cat /data/clash/run/mosdns.log1 | grep Error)" >> ${CFM_logs_file}
-          mos_err=1
-          exit 1
+          echo $date_log"info: mosdns已禁用" > ${CFM_logs_file}
         fi
-      fi
     else
         echo $date_log"info: mosdns配置文件缺失." > ${CFM_logs_file}
         mos_err=1
@@ -71,12 +82,6 @@ start_clash() {
         exit 1
     fi
     #mosdns
-
-    if [ -f /data/clash/run/run.logs ] ; then
-    mv data/clash/run/run.logs data/clash/run/log.old
-    fi
-    rm -rf  /data/clash/run/mosdns.txt
-    #保存+删除旧日志
     if [ "${config_online}" == "true" ] ; then
         if ! [ "$(head -1 /data/clash/run/root)" == "disable" ] ; then
             if ! (${scripts_dir}/clash.tool -o) ; then
@@ -355,16 +360,14 @@ stop_clash() {
 
     rm -rf ${Clash_run_path}/root \
     && echo $date_log"info: 自动更新流量信息已关闭." >> ${CFM_logs_file}
-    #清除mosdns日志
-    echo '' > ${mosdns_logs_file}
-    rm -f ${mos_kernel_logs_file}
 }
 
 while getopts ":sk" signal ; do
     case ${signal} in
         s)
-            start_mos &> /data/clash/run/service.log
+            fuck_log &> /data/clash/run/service.log
             stop_clash &> /data/clash/run/service.log
+            start_mos &> /data/clash/run/service.log
             sleep 0.5
             start_clash &>> /data/clash/run/service.log
             ;;
