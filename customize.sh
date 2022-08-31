@@ -145,8 +145,8 @@ if [  -f "${clash_data_dir}/clash.old/config.yaml" ] ; then
     mv ${clash_data_dir}/clash.old/config.yaml ${clash_data_dir}/
 else 
     if [  -f "data/clash.delete/config.yaml" ] ; then
-    ui_print "- 检测到上次卸载Clash模块时的配置信息（内含订阅链接），已移动到Clash/旧订配置 如需要，请自行复制订阅链接"
-    mv data/clash.delete/config.yaml ${clash_data_dir}/旧配置文件
+    ui_print "- 检测到上次卸载Clash模块时的配置信息（内含订阅链接），已移动到Clash/old 如需要，请自行复制订阅链接"
+    mv data/clash.delete/config.yaml ${clash_data_dir}/config.old
     else
     ui_print "- 全新安装 请根据提示在指定位置填写订阅链接" 
     fi
@@ -194,16 +194,16 @@ set_perm  ${clash_data_dir}/proxy_providers/ 0  0  0755
 set_perm  ${clash_data_dir}/备用/ 0  0  0755
 set_perm  ${clash_data_dir}/confs/ 0  0  0755
 #mosdns相关
-set_perm ${clash_data_dir}/mosdns ${system_uid} ${system_gid} 0777
-set_perm ${clash_data_dir}/mosdns/mosdns ${system_uid} ${system_gid} 0777
-set_perm ${clash_data_dir}/mosdns/config.yaml ${system_uid} ${system_gid} 0644
-set_perm ${clash_data_dir}/mosdns/hosts.txt ${system_uid} ${system_gid} 0644
+set_perm ${clash_data_dir}/mosdns 0 0 0777
+set_perm ${clash_data_dir}/mosdns/mosdns 0 0 0777
+set_perm ${clash_data_dir}/mosdns/config.yaml 0 0 0644
+set_perm ${clash_data_dir}/mosdns/hosts.txt 0 0 0644
 
 ui_print "- 开始设置mosdns所需符号链接."
 ln -s ${clash_data_dir}/GeoSite.dat ${clash_data_dir}/mosdns/GeoSite.dat
 ln -s ${clash_data_dir}/GeoIP.dat ${clash_data_dir}/mosdns/GeoIP.dat
-set_perm ${clash_data_dir}/mosdns/GeoSite.dat ${system_uid} ${system_gid} 0777
-set_perm ${clash_data_dir}/mosdns/GeoIP.dat ${system_uid} ${system_gid} 0777
+set_perm ${clash_data_dir}/mosdns/GeoSite.dat 0 0 0777
+set_perm ${clash_data_dir}/mosdns/GeoIP.dat 0 0 0777
 
 #安装控制器 已使用新方案，在任何机型上都能正常发挥作用
 #if [ "$(pm list packages | grep xyz.chz.clash)" ] || [ "$(pm list packages | grep -s xyz.chz.clash)" ];then
