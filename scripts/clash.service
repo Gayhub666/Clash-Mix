@@ -21,13 +21,13 @@ start_mos() {
     if [ "${run_mode}" == "1" ]; then
        mosdns_pid=`cat ${mos_pid_file} 2> /dev/null`
       if (cat /proc/${mosdns_pid}/cmdline | grep -q mosdns) ; then
-        echo "info: 检测到mosdns已启动,此次不启动." >> ${cfm_logs_file}
+        echo "info: 检测到mosdns已启动,此次不启动." >> ${CFM_logs_file}
         exit 1
       fi
     fi
     
     if [ !-f "/data/clash/mosdns/mosdns" ] ; then 
-        echo $date_log"err: mosdns内核丢失." > ${CFM_logs_file}
+        echo $date_log"err: mosdns内核丢失." >> ${CFM_logs_file}
         mos_err=1
         exit 1
     fi
@@ -39,7 +39,7 @@ start_mos() {
           sleep 0.05
           mosdns_run_pid=`cat ${mos_pid_file} 2> /dev/null | awk -F ' ' '{print $1}'`
             if (cat /proc/${mosdns_run_pid}/cmdline | grep -q mosdns) ; then
-              echo $date_log"info: mosdns已启动." > ${CFM_logs_file}
+              echo $date_log"info: mosdns已启动." >> ${CFM_logs_file}
             else
               echo $date_log"error: mosdns配置有误,启动失败,以下为错误" >> ${CFM_logs_file}
               echo $date_log"$(cat /data/clash/run/mosdns.log1 | grep Error)" >> ${CFM_logs_file}
@@ -47,17 +47,17 @@ start_mos() {
               exit 1
             fi
         else
-          echo $date_log"info: mosdns已禁用" > ${CFM_logs_file}
+          echo $date_log"info: mosdns已禁用" >> ${CFM_logs_file}
         fi
     else
-        echo $date_log"info: mosdns配置文件缺失." > ${CFM_logs_file}
+        echo $date_log"info: mosdns配置文件缺失." >> ${CFM_logs_file}
         mos_err=1
         exit 1
     fi
 
 
     if [ !-x "/data/clash/mosdns/mosdns" ] ; then
-        echo $date_log"err: mosdns权限异常." > ${CFM_logs_file}
+        echo $date_log"err: mosdns权限异常." >> ${CFM_logs_file}
         mos_err=1
         exit 1
     fi
@@ -92,7 +92,7 @@ start_clash() {
         fi
     fi
 
-    echo -n "" > ${CFM_logs_file} && echo "${date_day}" >> ${CFM_logs_file}
+    echo "${date_day}" >> ${CFM_logs_file}
     echo "Clash for Magisk v1.13.0  魔改版" >> ${CFM_logs_file}
 
     chmod 0755 /data/clash/core/lib/*

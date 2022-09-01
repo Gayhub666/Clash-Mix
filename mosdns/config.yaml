@@ -26,10 +26,10 @@ plugins:
       upstream:
         - addr: https://8.8.4.4/dns-query
           idle_timeout: 86400
-          enable_http3: false
+          socks5: 127.0.0.1:7890
         - addr: https://1.0.0.1/dns-query
           idle_timeout: 86400
-          enable_http3: false
+          socks5: 127.0.0.1:7890
 
   - tag: cache
     type: cache
@@ -75,14 +75,18 @@ plugins:
       ip:
         - provider:geoip:cn
 
-#  - tag: clash
-#    type: fast_forward
-#    args:
-#      upstream:
-#        - addr: 127.0.0.1:1053
-#          idle_timeout: 86400
-#          trusted: true
-#亚托利的一个配置
+  - tag: clash
+    type: fast_forward
+    args:
+      upstream:
+        - addr: 127.0.0.1:1053
+          idle_timeout: 86400
+          trusted: true
+
+#作用：让clash拿到域名。如果直接解析，clash只能拿到ip
+#对于tun,看你劫持与否，也可以有用，tun的dns劫持可以劫持不存在的
+#然后iptables依旧去转发53到mosdns
+
   - tag: query_is_ad_domain
     type: query_matcher
     args:
@@ -119,13 +123,16 @@ plugins:
           exec:
             - _new_nxdomain_response
             - _return
-          else_exec:
-            - entrance_clash
-            - _return
+        - clash
+        - _return
 
 servers:
-
   - exec: entrance
+    listeners:
+      - protocol: udp
+        addr: localhost:2053
+
+  - exec: entrance_clash
     listeners:
       - protocol: udp
         addr: localhost:23353
