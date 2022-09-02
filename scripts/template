@@ -1,11 +1,12 @@
 tproxy-port: 9898
-mixd-prot: 7890
+mixed-port: 7890
 mode: rule
 allow-lan: true
 unified-delay: false
 bind-address: "*"
 log-level: info
 ipv6: false
+udp: true
 geodata-mode: true
 #interface-name: en0        #出口网卡名称 可用来桥接VPN类软件
 external-controller: 0.0.0.0:9090
