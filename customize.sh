@@ -32,11 +32,11 @@ fi
 
 if [ -d "${clash_data_dir}" ] ; then
     ui_print "- 旧的clash文件已移动到clash.old"
-    if [ -d "${clash_data_dir}/clash.old" ] ; then
-        rm -rf ${clash_data_dir}/clash.old
+    if [ -d "/data/clash.old" ] ; then
+        rm -rf /data/clash.old
     fi
-    mkdir -p ${clash_data_dir}/clash.old
-    mv ${clash_data_dir}/* ${clash_data_dir}/clash.old/
+    mkdir -p /data/clash.old
+    mv ${clash_data_dir}/* data/clash.old/
 fi
 
 ui_print "- 正在准备安装环境"
@@ -140,9 +140,9 @@ rm -rf ${MODPATH}/clash_service.sh
 rm -rf ${clash_data_dir}/scripts/config.yaml
 sleep 2
 
-if [  -f "${clash_data_dir}/clash.old/config.yaml" ] ; then
+if [  -f "/data/clash.old/config.yaml" ] ; then
     ui_print "- 本次安装为模块升级，已恢复原订阅链接"
-    mv ${clash_data_dir}/clash.old/config.yaml ${clash_data_dir}/
+    mv /data/clash.old/config.yaml ${clash_data_dir}/
 else 
     if [  -f "data/clash.delete/config.yaml" ] ; then
     ui_print "- 检测到上次卸载Clash模块时的配置信息（内含订阅链接），已移动到Clash/old 如需要，请自行复制订阅链接"

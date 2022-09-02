@@ -403,7 +403,7 @@ while getopts ":afklmupoxced" signal ; do
             file_stop
             ;;
         e)
-            echo "proses download"
+            echo "更新内核"
             update_core
             ;;
         d)
