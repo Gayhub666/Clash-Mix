@@ -144,7 +144,7 @@ if [  -f "/data/clash.old/config.yaml" ] ; then
     ui_print "- 本次安装为模块升级，已恢复原订阅链接"
     mv /data/clash.old/config.yaml ${clash_data_dir}/
 else 
-    if [  -f "data/clash.delete/config.yaml" ] ; then
+    if [  -f "/data/clash.delete/config.yaml" ] ; then
     ui_print "- 检测到上次卸载Clash模块时的配置信息（内含订阅链接），已移动到Clash/old 如需要，请自行复制订阅链接"
     mv data/clash.delete/config.yaml ${clash_data_dir}/config.old
     else
