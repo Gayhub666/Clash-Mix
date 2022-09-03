@@ -32,11 +32,11 @@ fi
 
 if [ -d "${clash_data_dir}" ] ; then
     ui_print "- 旧的clash文件已移动到clash.old"
-    if [ -d "${clash_data_dir}/clash.old" ] ; then
-        rm -rf ${clash_data_dir}/clash.old
+    if [ -d "/data/clash.old" ] ; then
+        rm -rf /data/clash.old
     fi
-    mkdir -p ${clash_data_dir}/clash.old
-    mv ${clash_data_dir}/* ${clash_data_dir}/clash.old/
+    mkdir -p /data/clash.old
+    mv ${clash_data_dir}/* data/clash.old/
 fi
 
 ui_print "- 正在准备安装环境"
@@ -79,6 +79,7 @@ mv ${MODPATH}/rule_providers/ ${clash_data_dir}/
 mv ${MODPATH}/proxy_providers/ ${clash_data_dir}/
 mv ${MODPATH}/confs/ ${clash_data_dir}/
 mv ${MODPATH}/备用/ ${clash_data_dir}/
+mv ${MODPATH}/mosdns/ ${clash_data_dir}/
 ui_print "- 正在安装主要配置"
 mv ${clash_data_dir}/scripts/config.yaml ${clash_data_dir}/
 mv ${clash_data_dir}/scripts/clash.config ${clash_data_dir}/
@@ -139,13 +140,14 @@ rm -rf ${MODPATH}/clash_service.sh
 rm -rf ${clash_data_dir}/scripts/config.yaml
 sleep 2
 
-if [  -f "${clash_data_dir}/clash.old/config.yaml" ] ; then
+if [  -f "/data/clash.old/config.yaml" ] ; then
     ui_print "- 本次安装为模块升级，已恢复原订阅链接"
-    mv ${clash_data_dir}/clash.old/config.yaml ${clash_data_dir}/
+    mv /data/clash.old/config.yaml ${clash_data_dir}/
 else 
-    if [  -f "data/clash.delete/config.yaml" ] ; then
-    ui_print "- 检测到上次卸载Clash模块时的配置信息（内含订阅链接），已移动到Clash/旧订配置 如需要，请自行复制订阅链接"
-    mv data/clash.delete/config.yaml ${clash_data_dir}/旧配置文件
+    if [  -f "/data/clash.delete/config.yaml" ] ; then
+    ui_print "- 检测到上次卸载Clash模块时的配置信息（内含订阅链接）"
+    ui_print "已移动到Clash/old 如需要，请自行复制订阅链接"
+    mv /data/clash.delete/config.yaml ${clash_data_dir}/config.old
     else
     ui_print "- 全新安装 请根据提示在指定位置填写订阅链接" 
     fi
@@ -160,7 +162,7 @@ echo "name=Clash For Magisk" >> ${MODPATH}/module.prop
 echo "version=v1.13.0" >> ${MODPATH}/module.prop
 echo "versionCode=20220724" >> ${MODPATH}/module.prop
 echo "author=t@amarin 魔改" >> ${MODPATH}/module.prop
-echo "description= Clash透明代理 内核版本：meta1.13.1" >> ${MODPATH}/module.prop
+echo "description= Clash透明代理 Mosdns 内核版本：meta1.13.1" >> ${MODPATH}/module.prop
 
 ui_print "- 正在设置权限"
 set_perm_recursive ${MODPATH} 0 0 0755 0644
@@ -192,6 +194,17 @@ set_perm  ${clash_data_dir}/rule_providers/ 0  0  0755
 set_perm  ${clash_data_dir}/proxy_providers/ 0  0  0755
 set_perm  ${clash_data_dir}/备用/ 0  0  0755
 set_perm  ${clash_data_dir}/confs/ 0  0  0755
+#mosdns相关
+set_perm ${clash_data_dir}/mosdns 0 0 0777
+set_perm ${clash_data_dir}/mosdns/mosdns 0 0 0777
+set_perm ${clash_data_dir}/mosdns/config.yaml 0 0 0644
+set_perm ${clash_data_dir}/mosdns/hosts.txt 0 0 0644
+
+ui_print "- 开始设置mosdns所需符号链接."
+ln -s ${clash_data_dir}/GeoSite.dat ${clash_data_dir}/mosdns/GeoSite.dat
+ln -s ${clash_data_dir}/GeoIP.dat ${clash_data_dir}/mosdns/GeoIP.dat
+set_perm ${clash_data_dir}/mosdns/GeoSite.dat 0 0 0777
+set_perm ${clash_data_dir}/mosdns/GeoIP.dat 0 0 0777
 
 #安装控制器 已使用新方案，在任何机型上都能正常发挥作用
 #if [ "$(pm list packages | grep xyz.chz.clash)" ] || [ "$(pm list packages | grep -s xyz.chz.clash)" ];then

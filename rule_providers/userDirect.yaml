@@ -8,6 +8,25 @@ payload:
   - PROCESS-NAME,libsyncthingnative.so
   - AND,((DST-PORT,5228-5230),(NETWORK,TCP),(DOMAIN-KEYWORD,google))  #谷歌推送
   - DOMAIN-SUFFIX,push.apple.com  #苹果推送
+#--------------------------------------------喵佬相关
+  - '*.bidiys.cc'
+  - 'www.gstatic.com'
+  - '+.xinhua.net'
+  - '+.81.cn'
+  - '+.news.cn'
+#dns
+  - 223.5.5.5/32
+  - 120.53.53.53/32
+  
+  #- IP-CIDR,10.0.0.0/8
+  #- IP-CIDR,172.16.0.0/12
+  #- IP-CIDR,127.0.0.0/8
+  #- IP-CIDR,100.64.0.0/10
+  #- IP-CIDR,120.53.53.53/32
+  #- IP-CIDR,223.5.5.5/32
+
+#- '+.metacubex.one'走代理 暂没实现，看看会怎么样
+#喵佬直连规则 mosdns------------------------
 # > ghproxy.com 直连
   - AND,((NETWORK,TCP),(DOMAIN-SUFFIX,ghproxy.com),(DST-PORT,80/443))
   - AND,((NETWORK,UDP),(DOMAIN-SUFFIX,ghproxy.com))
@@ -32,6 +51,7 @@ payload:
   - DOMAIN-SUFFIX,smtp
   - DOMAIN-SUFFIX,local
   - DST-PORT,22
+  - IP-CIDR,192.168.0.0/16
 #补充lan规则
 # NAME: Lan
 # AUTHOR: blackmatrix7

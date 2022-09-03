@@ -123,6 +123,9 @@ rule-providers:
     path: ./rule_providers/userDirect.yaml
     #用户自定义直连，文件在data/clash/rule-provider/userdirect，需要的自己写入，格式参照备用里面的clash官方文档
 rules:
+  #- NOT,(SRC-IP-CIDR,198.18.0.1/32),REJECT # 免流佬小妙招 作用 拒绝所有非tun流量，但可能导致热点出现问题
+  - IP-CIDR,1.0.0.1/32,机场,no-resolve
+  - IP-CIDR,8.8.4.4/32,机场,no-resolve
   - RULE-SET,userDirect,DIRECT
   - GEOSITE,category-ads-all,REJECT
   - GEOIP,private,DIRECT

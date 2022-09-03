@@ -103,11 +103,20 @@ rule-providers:
     path: ./rule_providers/userDirect.yaml
     #用户自定义直连，文件在data/clash/rule-provider/userdirect，需要的自己写入，格式参照备用里面的clash官方文档
 rules:
-  - RULE-SET,userDirect,墙内网址
+  - IP-CIDR,1.0.0.1/32,机场,no-resolve
+  - IP-CIDR,8.8.4.4/32,机场,no-resolve
+  - RULE-SET,userDirect,墙内网址,no-resolve
   - GEOSITE,category-ads-all,REJECT
+  - GEOSITE,tencent,墙内网址
   - GEOSITE,geolocation-cn,墙内网址
   - GEOSITE,geolocation-!cn,机场
   - GEOIP,private,DIRECT
   - GEOIP,CN,墙内网址
   - GEOIP,!CN,机场
   - MATCH,其他
+
+
+#----------------------
+#没有那两个IP规则疑似会导致无法正常打开网页
+#但是按理来说应该会正常触发！cn
+#原理未知，不建议乱改，以免出现问题
