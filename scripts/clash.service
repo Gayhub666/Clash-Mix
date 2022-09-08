@@ -5,7 +5,7 @@ scripts_dir=`dirname ${scripts}`
 . /data/clash/clash.config
 mos_err=0
 
-#碎碎念 上面的是mosdns的故障信号 每次启动时候会被重置为0
+#上面的是mosdns的故障信号 每次启动时候会被重置为0
 #启动mosdns时候如果遇到问题会变成1，然后启动clash的函数检测到1会直接退出
 fuck_log() {
     if [ -f /data/clash/run/run.logs ] ; then
@@ -21,7 +21,7 @@ start_mos() {
     if [ "${run_mode}" == "1" ]; then
         mosdns_pid=`cat ${mos_pid_file} 2> /dev/null`
         if (cat /proc/${mosdns_pid}/cmdline | grep -q mosdns) ; then
-            echo "info: 检测到mosdns已启动,此次不启动." >> ${CFM_logs_file}
+            echo $date_log"info: 检测到mosdns已启动,此次不启动." >> ${CFM_logs_file}
             exit 1
         fi
     fi
@@ -334,7 +334,7 @@ stop_clash() {
            fi
         done
     else
-        echo $date_log"警告：出现异常，已强制停止clash内核" >> ${CFM_logs_file}
+        echo $date_log"err：出现异常，已强制停止clash内核" >> ${CFM_logs_file}
         kill -9 `cat ${Clash_pid_file}`
     fi
 

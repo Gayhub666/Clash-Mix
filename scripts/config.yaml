@@ -1,4 +1,5 @@
 proxies:
+#自己单独的节点可以往这里写一下
 proxy-providers:
   
   可乐云:
@@ -32,10 +33,8 @@ proxy-providers:
       interval: 1800
 
 #欢迎提交更多白嫖订阅
-#https://pastebin.com/raw/GxR5pELe
 #https://openit.daycat.space/clash
-#https://nullnode.top/clash主站 下属 https://nullnode.top/clashnode
-#可以白嫖的机场 https://acec.cloud/
+#找不到可以来这个电报频道寻找 https://t.me/Jsnzk
 # 魔戒 可乐云 为机场名，可以更换，要换必须全换，建议使用编辑器的查找功能避免遗漏
 proxy-groups:
   - name: 机场
@@ -95,19 +94,29 @@ proxy-groups:
       - DIRECT
       - 机场
       - 墙内网址
-
+#用户自定义规则，文件在data/clash/rule-provider/
+#需要的自己写入，格式参照备用里面的clash官方文档
 rule-providers:
+
   userDirect:
     type: file
     behavior: classical
     path: ./rule_providers/userDirect.yaml
-    #用户自定义直连，文件在data/clash/rule-provider/userdirect，需要的自己写入，格式参照备用里面的clash官方文档
+
+  userProxy:
+    type: file
+    behavior: classical
+    path: ./rule_providers/userProxy.yaml
+
+  Local:
+    type: file
+    behavior: classical
+    path: ./rule_providers/Local.yaml
 rules:
-  - IP-CIDR,1.0.0.1/32,机场,no-resolve
-  - IP-CIDR,8.8.4.4/32,机场,no-resolve
-  - RULE-SET,userDirect,墙内网址,no-resolve
+  - RULE-SET,Local,DIRECT
+  - RULE-SET,userProxy,机场
+  - RULE-SET,userDirect,墙内网址
   - GEOSITE,category-ads-all,REJECT
-  - GEOSITE,tencent,墙内网址
   - GEOSITE,geolocation-cn,墙内网址
   - GEOSITE,geolocation-!cn,机场
   - GEOIP,private,DIRECT
@@ -117,6 +126,4 @@ rules:
 
 
 #----------------------
-#没有那两个IP规则疑似会导致无法正常打开网页
-#但是按理来说应该会正常触发！cn
-#原理未知，不建议乱改，以免出现问题
+#谨慎更改local，否则可能无法联网

@@ -1,0 +1,11 @@
+proxies:
+  - {name: 🇷🇺 俄罗斯联邦-3.89MB/s(Youtube:不良林), server: 213.183.53.207, port: 9059, type: ss, cipher: aes-256-cfb, password: 9XwYyZsK8SNzQDtY}
+  - {name: 🇯🇵 日本-1.71MB/s(Youtube:不良林), server: 85.208.108.94, port: 2375, type: ss, cipher: aes-256-gcm, password: faBAoD54k87UJG7}
+  - {name: 🇺🇲 美国-1.20MB/s(Youtube:不良林), server: 172.99.188.71, port: 5000, type: ss, cipher: aes-256-gcm, password: Y6R9pAtvxxzmGC}
+  - {name: 🇩🇪 德国-978.3KB/s(Youtube:不良林), server: 193.108.117.75, port: 8080, type: ss, cipher: aes-256-gcm, password: KixLvKzwjekG00rm}
+  - {name: 🇷🇺 俄罗斯联邦-173.8KB/s(Youtube:不良林), server: 213.183.53.207, port: 9061, type: ss, cipher: aes-256-cfb, password: 4R3hUfZ2FHhDmNcP}
+  - {name: 🇺🇲 美国-2.80MB/s(Youtube:不良林), server: 167.88.61.14, port: 8882, type: ss, cipher: aes-256-gcm, password: kDWvXYZoTBcGkC4}
+  - {name: 🇺🇲 美国-1.25MB/s(Youtube:不良林), server: 167.88.61.14, port: 443, type: ss, cipher: aes-256-gcm, password: pKEW8JPByTVTLtM}
+  - {name: 🇺🇲 美国-2.44MB/s(Youtube:不良林), server: 167.88.61.14, port: 6679, type: ss, cipher: aes-256-gcm, password: TEzjfAYq2IjtuoS}
+  - {name: 🇺🇲 美国-2.23MB/s(Youtube:不良林), server: 167.88.61.14, port: 5004, type: ss, cipher: aes-256-gcm, password: g5MeD6Ft3CWlJId}
+  - {name: 🇺🇲 美国-1.90MB/s(Youtube:不良林), server: 167.88.61.14, port: 8888, type: ss, cipher: aes-256-gcm, password: Y6R9pAtvxxzmGC}
