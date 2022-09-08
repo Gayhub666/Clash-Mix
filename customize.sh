@@ -141,15 +141,15 @@ rm -rf ${clash_data_dir}/scripts/config.yaml
 sleep 2
 
 if [  -f "/data/clash.old/config.yaml" ] ; then
-    ui_print "- 本次安装为模块升级，已恢复原订阅链接"
+    ui_print "- >>>>>本次安装为模块升级，已恢复原订阅链接<<<<<"
     mv /data/clash.old/config.yaml ${clash_data_dir}/
 else 
     if [  -f "/data/clash.delete/config.yaml" ] ; then
-    ui_print "- 检测到上次卸载Clash模块时的配置信息（内含订阅链接）"
-    ui_print "- 已移动到Clash/old 如需要，请自行复制订阅链接"
+    ui_print "- >>>>>检测到上次卸载Clash模块时的配置信息（内含订阅链接）<<<<<"
+    ui_print "- >>>>>已移动到Clash/old 如需要，请自行复制订阅链接<<<<<"
     mv /data/clash.delete/config.yaml ${clash_data_dir}/config.old
     else
-    ui_print "- 全新安装 请根据提示在指定位置填写订阅链接" 
+    ui_print "- >>>>>全新安装 请根据提示在指定位置填写订阅链接<<<<<" 
     fi
 fi
 sleep2
@@ -163,7 +163,7 @@ echo "version=v1.13.0" >> ${MODPATH}/module.prop
 echo "versionCode=20220910" >> ${MODPATH}/module.prop
 echo "author=t@amarin 魔改" >> ${MODPATH}/module.prop
 echo "description= Clash透明代理 Mosdns 内核版本：meta1.13.1" >> ${MODPATH}/module.prop
-echo "updateJson=https://github.dev/Gayhub666/Clash-Mix/raw/master/version.json" >> ${MODPATH}/module.prop
+echo "updateJson=https://raw.githubusercontent.com/Gayhub666/Clash-Mix/master/version.json" >> ${MODPATH}/module.prop
 
 ui_print "- 正在设置权限"
 set_perm_recursive ${MODPATH} 0 0 0755 0644
