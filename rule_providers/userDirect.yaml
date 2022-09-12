@@ -1,47 +1,25 @@
 payload:
-#本地规则多次修改已过于陈旧，日后将完全重写一遍
+#自定义规则 格式请参考教程--------------
+  - 
+#-------------------------------------
   - DOMAIN,cdn.jsdelivr.net
   - DOMAIN,fastgit.org
   - DOMAIN-SUFFIX,speedtest.net
-  - DOMAIN-SUFFIX,10010.com   #联通营业厅走直连，以免免流时出现问题
   - DOMAIN-SUFFIX,syncthing.net
   - PROCESS-NAME,libsyncthingnative.so
+  - DOMAIN-SUFFIX,push.apple.com                                      #苹果推送，热点机可以启用
+  - DOMAIN-SUFFIX,10010.com                                           #联通营业厅走直连，以免免流时出现问题
   - AND,((DST-PORT,5228-5230),(NETWORK,TCP),(DOMAIN-KEYWORD,google))  #谷歌推送
-  - DOMAIN-SUFFIX,push.apple.com  #苹果推送
-  #- DOMAIN-SUFFIX,www.gstatic.com  #检测连接的地址，要是不出问题应该不需要给手动改为直连
-  
-#--------------------------------------------喵佬相关
-  - '*.bidiys.cc'
-  - 'www.gstatic.com'
-  - '+.xinhua.net'
-  - '+.81.cn'
-  - '+.news.cn'
-#dns
-  - 223.5.5.5/32
-  - 120.53.53.53/32
-  
-  #- IP-CIDR,10.0.0.0/8
-  #- IP-CIDR,172.16.0.0/12
-  #- IP-CIDR,127.0.0.0/8
-  #- IP-CIDR,100.64.0.0/10
-  #- IP-CIDR,120.53.53.53/32
-  #- IP-CIDR,223.5.5.5/32
-
-#喵佬直连规则 mosdns------------------------
-# > ghproxy.com 直连
   - AND,((NETWORK,TCP),(DOMAIN-SUFFIX,ghproxy.com),(DST-PORT,80/443))
   - AND,((NETWORK,UDP),(DOMAIN-SUFFIX,ghproxy.com))
-  - DOMAIN-SUFFIX,ghproxy.com,🇨🇳 墙内
+  - DOMAIN-SUFFIX,ghproxy.com,🇨🇳 墙内                                 #ghproxy设置为直连
+  #- DOMAIN-SUFFIX,www.gstatic.com  #检测连接的地址，不出问题不需调整
+
 #为稳定运行，国内DNS将全部设置为直连不走免流
-  - AND,((NETWORK,TCP),(IP-CIDR,1.12.12.12/32,no-resolve),(DST-PORT,80/443))
-  - AND,((NETWORK,UDP),(IP-CIDR,1.12.12.12/32,no-resolve))
-  - IP-CIDR,1.12.12.12/32
   - AND,((NETWORK,TCP),(IP-CIDR,120.53.53.53/32,no-resolve),(DST-PORT,80/443))
   - AND,((NETWORK,UDP),(IP-CIDR,120.53.53.53/32,no-resolve))
   - IP-CIDR,120.53.53.53/32
+  
   - AND,((NETWORK,TCP),(IP-CIDR,223.5.5.5/32,no-resolve),(DST-PORT,80/443))
   - AND,((NETWORK,UDP),(IP-CIDR,223.5.5.5/32,no-resolve))
   - IP-CIDR,223.5.5.5/32
-  - AND,((NETWORK,TCP),(IP-CIDR,119.29.29.29/32,no-resolve),(DST-PORT,80/443))
-  - AND,((NETWORK,UDP),(IP-CIDR,119.29.29.29/32,no-resolve))
-  - IP-CIDR,119.29.29.29/32

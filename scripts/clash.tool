@@ -190,7 +190,7 @@ config_online() {
     clash_pid=`cat ${Clash_pid_file}`
     match_count=0
 
-    echo $date_log"warn: Download Config online" > ${CFM_logs_file}
+    echo $date_log"warn: 更新订阅" > ${CFM_logs_file}
     update_file ${Clash_config_file} ${Subcript_url} >> ${CFM_logs_file}
 
     sleep 0.5
@@ -200,10 +200,10 @@ config_online() {
     fi
 
     if [ ${match_count} -ge 1 ] ; then
-        echo $date_log"info: download succes." >> ${CFM_logs_file}
+        echo $date_log"info: 下载成功" >> ${CFM_logs_file}
         exit 0
     else
-        echo $date_log"err: download failed, pastikan Url Tidak kosong" >> ${CFM_logs_file}
+        echo $date_log"err: 下载失败，请确认订阅地址已填写" >> ${CFM_logs_file}
         exit 1
     fi
 }

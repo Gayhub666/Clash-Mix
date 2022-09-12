@@ -232,7 +232,7 @@ start_clash() {
         if [ ! "${update_interval}" == "false" ]; then
             echo "${update_interval} ${scripts_dir}/clash.tool -u" >> ${Clash_run_path}/root \
             && echo $date_log"info: 定时更新Geo文件设置为 (${update_interval})." >> ${CFM_logs_file}
-            echo $date_log"info: Geo设置: [${auto_updateGeoX}] | 传统订阅状态: (${auto_updateSubcript})." >> ${CFM_logs_file}
+            echo $date_log"info: 更新Geo设置: [${auto_updateGeoX}] | 传统订阅状态: (${auto_updateSubcript})." >> ${CFM_logs_file}
         else
             echo $date_log"info: 定时更新Geo文件未启动" >> ${CFM_logs_file}
         fi

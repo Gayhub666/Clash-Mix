@@ -1,5 +1,5 @@
 proxies:
-#自己单独的节点可以往这里写一下
+#自己单独的节点/自建节点可以往这里写一下，参见教程里面的格式
 proxy-providers:
   
   可乐云:
@@ -10,7 +10,7 @@ proxy-providers:
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
-      interval: 1800
+      interval: 900
   魔戒:
     type: http
     url: "订阅链接地址"
@@ -19,7 +19,7 @@ proxy-providers:
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
-      interval: 1800
+      interval: 900
 #使用p核时，如果无法正常更新订阅，请打开proxy provider 里面的机场yaml配置文件查看
 #如果是乱码，需要自己在订阅链接结尾加上 &flag=clash  强制订阅服务器下发clash的配置文件
   备用:
@@ -30,7 +30,7 @@ proxy-providers:
     health-check:
       enable: true
       url: http://www.gstatic.com/generate_204
-      interval: 1800
+      interval: 900
 
 #欢迎提交更多白嫖订阅
 #https://openit.daycat.space/clash
@@ -77,7 +77,7 @@ proxy-groups:
       - 可乐云
       - 魔戒
     url: 'http://www.gstatic.com/generate_204'
-    interval: 1800
+    interval: 900
     filter: '美国|USA|美國.*1.0'
     strategy: consistent-hashing
 
@@ -116,14 +116,16 @@ rules:
   - RULE-SET,Local,DIRECT
   - RULE-SET,userProxy,机场
   - RULE-SET,userDirect,墙内网址
+
   - GEOSITE,category-ads-all,REJECT
   - GEOSITE,geolocation-cn,墙内网址
   - GEOSITE,geolocation-!cn,机场
+
   - GEOIP,private,DIRECT
   - GEOIP,CN,墙内网址
   - GEOIP,!CN,机场
-  - MATCH,其他
 
+  - MATCH,其他
 
 #----------------------
 #谨慎更改local，否则可能无法联网
