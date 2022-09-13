@@ -460,13 +460,13 @@ while getopts ":sk" signal ; do
                rm -rf /data/clash/run/lastmobile
                if [ "${Clash_auto_detect_interface}" == "true" ]; then
                     stop_tun_portabel &>> /data/clash/run/service.log
-                    echo $date_log"warn: 切换到tun（启用自动选择网卡）" >> ${CFM_logs_file}
+                    echo $date_log"warn: 切换到tun[启用自动选择网卡]" >> ${CFM_logs_file}
                     sleep 0.5
                     start_tun_portabel &>> /data/clash/run/service.log
                     echo $date_log"info: 已应用tun模式" >> ${CFM_logs_file}
                else
                   stop_tun &>> /data/clash/run/service.log
-                  echo $date_log"warn: 切换到tun（关闭自动选择网卡）" >> ${CFM_logs_file}
+                  echo $date_log"warn: 切换到tun[关闭自动选择网卡]" >> ${CFM_logs_file}
                   sleep 0.5
                   start_tun &>> /data/clash/run/service.log
                   echo $date_log"info: 已执行tun-IPtables脚本" >> ${CFM_logs_file}
@@ -474,7 +474,7 @@ while getopts ":sk" signal ; do
            fi
            rm -rf /data/clash/run/config.logs
            rm -rf /data/clash/run/cmdRunning
-           echo $date_log"info: Clash核心正在运行 (PID: `cat ${Clash_pid_file}`)" >> ${CFM_logs_file}
+           echo $date_log"info: Clash核心正在运行 [PID: `cat ${Clash_pid_file}`]" >> ${CFM_logs_file}
            echo $date_log"info: 已连接" >> ${CFM_logs_file}
            ;;
         k)

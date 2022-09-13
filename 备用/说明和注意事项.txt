@@ -1,13 +1,11 @@
-包名分流自动转为 uid规则，在 clash.config 填入包名
-打开data/clash/clash.confug
 就可以看到可以添加包名的地方，记得用一个一行写在双引号里面
 scripts文件夹下打开终端输入 ./upSub.sh -s  即可手动更新套餐信息，默认为1小时自动更新一次
 安装模块自动安装汉化版控制器，可以自行选装大王版控制器
-
+----------------------------------------------
 对于热点机用户，备用 文件夹中附带了一个xposed模块，用于固定热点机的IP地址
 这样可以在连接的终端上方便的远程访问dashboard进行节点切换等操作
 该软件更新地址   https://github.com/XhyEax/SoftApHelper/releases/tag/v1.010
-
+----------------------------------------------
 通配符说明 适用于过滤器
 [转发自频道 Kattesnive (kattesnive)]
 (A).*(B)             节点名既有 A 也有 B 
@@ -15,10 +13,10 @@ scripts文件夹下打开终端输入 ./upSub.sh -s  即可手动更新套餐信
 ^(?!.*A)             节点名不含有 A 
 ^(?!.*A).*(B)        节点名不含有 A 但含有 B
 ^(?!.*(A|B))         节点名既不含有 A 也不含有 B
-
+----------------------------------------------
 clash自动测试命令 请在终端输入后查看报错信息进行故障排除
 clash -t -f /data/clash/run/config.yaml
-
+-----------------------------------------------
 由于rule-provider效率较低，目前已经转为使用geo规则，使用的geo文件地址如下
 https://github.com/Loyalsoldier/v2ray-rules-dat
 
@@ -40,6 +38,12 @@ PATH=$PATH:/data/data/com.termux/files/usr/bin/
 
 meta内核实时更新的配置文件教程地址：
 https://github.com/MetaCubeX/Clash.Meta/blob/Alpha/docs/config.yaml
+
+no-resolve表示不要解析这条规则，只处理ip访问请求
+
+
+
+
 
 ------------------------------------------以下为部分可自行替换配置，更多配置请看 教程与模板 文件夹内配置-----------------------------------------------
 负载均衡实列
@@ -135,8 +139,15 @@ fallback:
     behavior: classical
     path: ./rule_providers/Locale.yaml
 
+  - AND,((NETWORK,TCP),(IP-CIDR,223.5.5.5/32,no-resolve),(DST-PORT,80/443))
+  - AND,((NETWORK,UDP),(IP-CIDR,223.5.5.5/32,no-resolve))
 
+  - AND,((NETWORK,TCP),(IP-CIDR,120.53.53.53/32,no-resolve),(DST-PORT,80/443))
+  - AND,((NETWORK,UDP),(IP-CIDR,120.53.53.53/32,no-resolve))
 
+  - AND,((DST-PORT,5228-5230),(NETWORK,TCP),(DOMAIN-KEYWORD,google))  #谷歌推送
+  - AND,((NETWORK,TCP),(DOMAIN-SUFFIX,ghproxy.com),(DST-PORT,80/443))
+  - AND,((NETWORK,UDP),(DOMAIN-SUFFIX,ghproxy.com))
 
 规则可用的关键字（机翻）
 

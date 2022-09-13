@@ -9,19 +9,11 @@ payload:
   - DOMAIN-SUFFIX,speedtest.net
   - DOMAIN-SUFFIX,syncthing.net
   - PROCESS-NAME,libsyncthingnative.so
-  - DOMAIN-SUFFIX,push.apple.com                                      #苹果推送，热点机可以启用
-  - DOMAIN-SUFFIX,10010.com                                           #联通营业厅走直连，以免免流时出现问题
-  - AND,((DST-PORT,5228-5230),(NETWORK,TCP),(DOMAIN-KEYWORD,google))  #谷歌推送
-  - AND,((NETWORK,TCP),(DOMAIN-SUFFIX,ghproxy.com),(DST-PORT,80/443))
-  - AND,((NETWORK,UDP),(DOMAIN-SUFFIX,ghproxy.com))
-  - DOMAIN-SUFFIX,ghproxy.com,🇨🇳 墙内                                 #ghproxy设置为直连
-  #- DOMAIN-SUFFIX,www.gstatic.com  #检测连接的地址，不出问题不需调整
-
-#为稳定运行，国内DNS将全部设置为直连不走免流---
-  - AND,((NETWORK,TCP),(IP-CIDR,120.53.53.53/32,no-resolve),(DST-PORT,80/443))
-  - AND,((NETWORK,UDP),(IP-CIDR,120.53.53.53/32,no-resolve))
+  - DOMAIN-SUFFIX,push.apple.com                                       #苹果推送，热点机可以启用
+  - DOMAIN-KEYWORD,10010.com                                           #联通营业厅走直连，以免免流时出现问题
+  - DOMAIN-KEYWORD,ghproxy.com,🇨🇳
   - IP-CIDR,120.53.53.53/32
-  
-  - AND,((NETWORK,TCP),(IP-CIDR,223.5.5.5/32,no-resolve),(DST-PORT,80/443))
-  - AND,((NETWORK,UDP),(IP-CIDR,223.5.5.5/32,no-resolve))
   - IP-CIDR,223.5.5.5/32
+#为稳定运行，国内DNS将全部设置为直连不走免流---
+#- DOMAIN-SUFFIX,www.gstatic.com  #检测连接的地址，不出问题不需调整
+#rule-provider里面不能使用and not or等逻辑判断类规则
