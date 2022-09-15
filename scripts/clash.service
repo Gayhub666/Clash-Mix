@@ -398,14 +398,12 @@ while getopts ":sk" signal ; do
     case ${signal} in
         s)
             fuck_log &>> /data/clash/run/service.log
-            start_aria
             start_clash &>> /data/clash/run/service.log
             start_mos &>> /data/clash/run/service.log
             ;;
         k)
             stop_clash &>> /data/clash/run/service.log
             stop_mos &>> /data/clash/run/service.log
-            stop_aria
             ;;
         ?)
             echo ""
