@@ -9,3 +9,6 @@ rm_data() {
 }
 
 rm_data
+#aria2相关
+killall -9 aria2c >/dev/null 2>&1
+killall -9 lighttpd >/dev/null 2>&1
