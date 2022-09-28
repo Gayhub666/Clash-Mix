@@ -1,4 +1,5 @@
 # NAME: FCM
+#FCM在部分地区已经被墙，请根据自己情况决定fcm是否走代理
 payload:
   - DOMAIN,alt1-mtalk.google.com
   - DOMAIN,alt2-mtalk.google.com

@@ -163,7 +163,7 @@ echo "name=Clash For Magisk" >> ${MODPATH}/module.prop
 echo "version=v1.13.0" >> ${MODPATH}/module.prop
 echo "versionCode=20220910" >> ${MODPATH}/module.prop
 echo "author=t@amarin 魔改" >> ${MODPATH}/module.prop
-echo "description= Clash透明代理 Mosdns Aria(88端口) 内核版本:meta 1.13.1" >> ${MODPATH}/module.prop
+echo "description= Clash透明代理 Mosdns Aria(88端口) 内核:meta 1.13.1" >> ${MODPATH}/module.prop
 echo "updateJson=https://raw.githubusercontent.com/Gayhub666/Clash-Mix/master/version.json" >> ${MODPATH}/module.prop
 
 ui_print "- 正在设置权限"
