@@ -19,6 +19,8 @@ payload:
 #rule-provider里面不能使用and not or等逻辑判断类规则
 
 #---微软走直连，用于热点机-------------------
+  - DOMAIN-SUFFIX,msftconnecttest.com    #win系统的连通性检测地址，不走直连可能会导致系统报网络未连接
+  - DOMAIN-SUFFIX,msftncsi.com           #win系统的连通性检测地址（旧版系统）
   - DOMAIN-SUFFIX,1drv.com
   - DOMAIN-SUFFIX,a-msedge.net
   - DOMAIN-SUFFIX,a1158.g.akamai.net
@@ -267,7 +269,6 @@ payload:
   - DOMAIN-SUFFIX,msftauth.net
   - DOMAIN-SUFFIX,msftauthimages.net
   - DOMAIN-SUFFIX,msftcenterone.cn
-  - DOMAIN-SUFFIX,msftconnecttest.com
   - DOMAIN-SUFFIX,msfteducation.ca
   - DOMAIN-SUFFIX,msftidentity.com
   - DOMAIN-SUFFIX,msftnet.org
