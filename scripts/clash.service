@@ -43,7 +43,7 @@ start_mos() {
               echo $date_log"info: mosdns已启动." >> ${CFM_logs_file}
             else
               echo $date_log"error: mosdns配置有误,启动失败,以下为错误" >> ${CFM_logs_file}
-              echo $date_log"$(cat /data/clash/run/mosdns.log1 | grep Error)" >> ${CFM_logs_file}
+              echo $date_log"$(cat /data/clash/run/mosdns.log | grep Error)" >> ${CFM_logs_file}
               mos_err=1
               exit 1
             fi
@@ -94,7 +94,7 @@ start_clash() {
     fi
 
     echo "启动时间 ${date_day}" >> ${CFM_logs_file}
-    echo "Clash for Magisk v1.13.0  魔改版" >> ${CFM_logs_file}
+    echo "Clash for Magisk v2.0  魔改版" >> ${CFM_logs_file}
 
     chmod 0755 /data/clash/core/lib/*
 
@@ -254,7 +254,7 @@ start_clash() {
         fi
         ${scripts_dir}/upSub.sh -s
         echo "0 * * * * ${scripts_dir}/upSub.sh -s " >> ${Clash_run_path}/root \
-        && echo $date_log"info: 自动更新套餐流量已开启." >> ${CFM_logs_file}
+        && echo $date_log"info: 自动更新流量使用信息已开启." >> ${CFM_logs_file}
     else
         echo $date_log"内核 ${Clash_bin_path} 未找到" >> ${CFM_logs_file}
         stop_mos
@@ -360,7 +360,7 @@ stop_clash() {
     rm -rf /data/clash/run/clash.pid
 
     rm -rf ${Clash_run_path}/root \
-    && echo $date_log"info: 自动更新流量信息已关闭." >> ${CFM_logs_file}
+    && echo $date_log"info: 自动更新流量使用信息已关闭." >> ${CFM_logs_file}
 }
 
 while getopts ":sk" signal ; do

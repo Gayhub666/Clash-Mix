@@ -159,8 +159,8 @@ rm -rf ${MODPATH}/module.prop
 touch ${MODPATH}/module.prop
 echo "id=ClashForMagisk" > ${MODPATH}/module.prop
 echo "name=Clash For Magisk" >> ${MODPATH}/module.prop
-echo "version=v1.14" >> ${MODPATH}/module.prop
-echo "versionCode=20220910" >> ${MODPATH}/module.prop
+echo "version=v2.0" >> ${MODPATH}/module.prop
+echo "versionCode=20230430" >> ${MODPATH}/module.prop
 echo "author=t@amarin 魔改" >> ${MODPATH}/module.prop
 echo "description= Clash透明代理   Mosdns  内核:meta 1.14.4" >> ${MODPATH}/module.prop
 echo "updateJson=https://raw.githubusercontent.com/Gayhub666/Clash-Mix/master/version.json" >> ${MODPATH}/module.prop
