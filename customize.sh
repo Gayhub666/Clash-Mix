@@ -80,7 +80,6 @@ mv ${MODPATH}/proxy_providers/ ${clash_data_dir}/
 mv ${MODPATH}/confs/ ${clash_data_dir}/
 mv ${MODPATH}/备用/ ${clash_data_dir}/
 mv ${MODPATH}/mosdns/ ${clash_data_dir}/
-mv ${MODPATH}/aria2/ ${clash_data_dir}/
 ui_print "- 正在安装主要配置"
 mv ${clash_data_dir}/scripts/config.yaml ${clash_data_dir}/
 mv ${clash_data_dir}/scripts/clash.config ${clash_data_dir}/
@@ -99,8 +98,8 @@ if [ ! -f "${dns_path}/resolv.conf" ] ; then
     touch ${MODPATH}${dns_path}/resolv.conf
     echo nameserver 8.8.8.8 > ${MODPATH}${dns_path}/resolv.conf
     echo nameserver 1.1.1.1 >> ${MODPATH}${dns_path}/resolv.conf
-    echo nameserver 9.9.9.9 >> ${MODPATH}${dns_path}/resolv.conf
-    echo nameserver 149.112.112.112 >> ${MODPATH}${dns_path}/resolv.conf
+    echo nameserver 223.5.5.5 >> ${MODPATH}${dns_path}/resolv.conf
+    echo nameserver 120.53.53.53 >> ${MODPATH}${dns_path}/resolv.conf
 fi
 
 if [ ! -f "${clash_data_dir}/scripts/packages.list" ] ; then
@@ -160,10 +159,10 @@ rm -rf ${MODPATH}/module.prop
 touch ${MODPATH}/module.prop
 echo "id=ClashForMagisk" > ${MODPATH}/module.prop
 echo "name=Clash For Magisk" >> ${MODPATH}/module.prop
-echo "version=v1.13.0" >> ${MODPATH}/module.prop
+echo "version=v1.14" >> ${MODPATH}/module.prop
 echo "versionCode=20220910" >> ${MODPATH}/module.prop
 echo "author=t@amarin 魔改" >> ${MODPATH}/module.prop
-echo "description= Clash透明代理   Mosdns Aria(88端口)  内核:meta 1.13.1" >> ${MODPATH}/module.prop
+echo "description= Clash透明代理   Mosdns  内核:meta 1.14.4" >> ${MODPATH}/module.prop
 echo "updateJson=https://raw.githubusercontent.com/Gayhub666/Clash-Mix/master/version.json" >> ${MODPATH}/module.prop
 
 ui_print "- 正在设置权限"
@@ -201,8 +200,6 @@ set_perm ${clash_data_dir}/mosdns 0 0 0777
 set_perm ${clash_data_dir}/mosdns/mosdns 0 0 0777
 set_perm ${clash_data_dir}/mosdns/config.yaml 0 0 0644
 set_perm ${clash_data_dir}/mosdns/hosts.txt 0 0 0644
-#aria2
-set_perm_recursive ${clash_data_dir}/aria2/ 0 0 0755 0755
 #------------------------------------------------------------
 ui_print "- 开始设置mosdns所需符号链接."
 ln -s ${clash_data_dir}/GeoSite.dat ${clash_data_dir}/mosdns/GeoSite.dat
