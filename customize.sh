@@ -81,7 +81,7 @@ mv ${MODPATH}/confs/ ${clash_data_dir}/
 mv ${MODPATH}/备用/ ${clash_data_dir}/
 mv ${MODPATH}/mosdns/ ${clash_data_dir}/
 ui_print "- 正在安装主要配置"
-mv ${clash_data_dir}/scripts/config.yaml ${clash_data_dir}/
+cp ${clash_data_dir}/scripts/config.yaml ${clash_data_dir}/
 mv ${clash_data_dir}/scripts/clash.config ${clash_data_dir}/
 mv ${clash_data_dir}/scripts/template ${clash_data_dir}/
 
@@ -195,7 +195,7 @@ set_perm  ${clash_data_dir}/备用/ 0  0  0755
 set_perm  ${clash_data_dir}/confs/ 0  0  0755
 
 sleep 3
-ui_print "- dashboard已安装为系统应用，卸载模块后会自动删除"
+ui_print "- 控制器已安装为系统应用，卸载模块后会自动删除"
 ui_print "- 标准版请进入data/clash/config.yaml 指定位置填写订阅链接"
 ui_print "- 免流版 极简版请打开/data/clash/confs/查看说明"
 ui_print "- 在对应配置文件内填写订阅链接并在控制台切换到相应配置文件"

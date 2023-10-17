@@ -210,7 +210,7 @@ start_clash() {
                 while read p; do
                     echo ${date_log}"err:" "$p" >> ${CFM_logs_file}
                 done <${Clash_run_path}/config.logs
-                echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >> ${CFM_logs_file}
+                echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >> ${CFM_logs_file}
                 if [ "${use_config}" == "false" ]; then
                     mv ${temporary_config_file} ${Clash_data_dir}/config.yaml
                 else
