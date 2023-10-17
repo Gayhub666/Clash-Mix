@@ -137,7 +137,6 @@ rm -rf ${MODPATH}/scripts
 rm -rf ${MODPATH}/GeoX
 rm -rf ${MODPATH}/binary
 rm -rf ${MODPATH}/clash_service.sh
-rm -rf ${clash_data_dir}/scripts/config.yaml
 sleep 2
 
 if [  -f "/data/clash.old/config.yaml" ] ; then

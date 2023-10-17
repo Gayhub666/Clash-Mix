@@ -17,8 +17,7 @@ geodata-mode: true
 geox-url:
   geoip: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
   geosite: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
-  mmdb: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb
-
+  mmdb: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
 profile:
   store-selected: true
   store-fake-ip: true
@@ -62,10 +61,10 @@ dns:
     - '+.lan'
     - '+.cn'
   nameserver-policy:
-    "geosite:cn,private": 
+    "geosite:geolocation-cn,private": 
       - https://223.5.5.5/dns-query
       - https://120.53.53.53/dns-query
-    "geosite:!cn":
+    "geosite:!geolocation-cn":
       - https://8.8.4.4/dns-query#机场
       - https://1.0.0.1/dns-query#机场
   proxy-server-nameserver:
