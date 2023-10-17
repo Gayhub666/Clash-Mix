@@ -160,9 +160,9 @@ touch ${MODPATH}/module.prop
 echo "id=ClashForMagisk" > ${MODPATH}/module.prop
 echo "name=Clash For Magisk" >> ${MODPATH}/module.prop
 echo "version=v2.0" >> ${MODPATH}/module.prop
-echo "versionCode=20230430" >> ${MODPATH}/module.prop
+echo "versionCode=20231017" >> ${MODPATH}/module.prop
 echo "author=t@amarin 魔改" >> ${MODPATH}/module.prop
-echo "description= Clash透明代理   Mosdns  内核:meta 1.14.4" >> ${MODPATH}/module.prop
+echo "description= Clash透明代理 内核:meta 1.16.0" >> ${MODPATH}/module.prop
 echo "updateJson=https://raw.githubusercontent.com/Gayhub666/Clash-Mix/master/version.json" >> ${MODPATH}/module.prop
 
 ui_print "- 正在设置权限"
@@ -188,34 +188,13 @@ set_perm  ${clash_data_dir}/scripts/clash.inotify 0  0  0755
 set_perm  ${clash_data_dir}/scripts/clash.service 0  0  0755
 set_perm  ${clash_data_dir}/scripts/clash.cron 0  0  0755
 set_perm  ${clash_data_dir}/scripts/start.sh 0  0  0755
-set_perm  ${clash_data_dir}/scripts/upSub.sh 0  0  0755
 set_perm  ${clash_data_dir}/clash.config ${uid} ${gid} 0755
 set_perm  ${clash_service_dir}/clash_service.sh  0  0  0755
 set_perm  ${clash_data_dir}/rule_providers/ 0  0  0755
 set_perm  ${clash_data_dir}/proxy_providers/ 0  0  0755
 set_perm  ${clash_data_dir}/备用/ 0  0  0755
 set_perm  ${clash_data_dir}/confs/ 0  0  0755
-#mosdns相关
-set_perm ${clash_data_dir}/mosdns 0 0 0777
-set_perm ${clash_data_dir}/mosdns/mosdns 0 0 0777
-set_perm ${clash_data_dir}/mosdns/config.yaml 0 0 0644
-set_perm ${clash_data_dir}/mosdns/hosts.txt 0 0 0644
-#------------------------------------------------------------
-ui_print "- 开始设置mosdns所需符号链接."
-ln -s ${clash_data_dir}/GeoSite.dat ${clash_data_dir}/mosdns/GeoSite.dat
-ln -s ${clash_data_dir}/GeoIP.dat ${clash_data_dir}/mosdns/GeoIP.dat
-set_perm ${clash_data_dir}/mosdns/GeoSite.dat 0 0 0777
-set_perm ${clash_data_dir}/mosdns/GeoIP.dat 0 0 0777
 
-#安装控制器 已使用新方案，在任何机型上都能正常发挥作用
-#if [ "$(pm list packages | grep xyz.chz.clash)" ] || [ "$(pm list packages | grep -s xyz.chz.clash)" ];then
-#ui_print "- 无需安装DashBoard."
-#else
-#ui_print "- 开始安装DashBoard."
-#pm install -r --user 0 data/clash/备用/控制器.apk
-#ui_print "- ↑显示Success即为安装完成."
-#ui_print "- 如果失败请手动安装 安装包文件在:/data/clash/备用/控制器.apk"
-#fi
 sleep 3
 ui_print "- dashboard已安装为系统应用，卸载模块后会自动删除"
 ui_print "- 标准版请进入data/clash/config.yaml 指定位置填写订阅链接"
